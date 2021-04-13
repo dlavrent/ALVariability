@@ -1,0 +1,348 @@
+skeleton_id,cell_type,ntype,trivial_name,Hartenstein_Hemilineage,ItoLee_Hemilineage,transmitter,tract,top_glomerulus,density_in_top,LTS,LTK,morpho_type,class_traces_sub,PN_type,citations_other_names,LRC,out_degree_weighted,community,hemibrain_bodyid
+24622,D adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,D,0.905,0.996,52.335,119,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,3.334,12,5,1536947502
+35246,D adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,D,0.896,0.996,52.678,119,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.832,10,5,5813038889
+40637,D adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,D,0.811,0.991,51.003,119,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.996,14,5,5813055184
+27295,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.926,0.997,52.749,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.296,23,2,754534424
+57311,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.888,0.996,51.844,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.574,36,2,722817260
+57323,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.914,0.997,52.244,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.683,40,2,1734350788
+57353,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.983,0.999,53.007,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.56,7,2,1765040289
+57381,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.789,0.99,49.495,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.335,5,2,754538881
+61221,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.993,1.0,53.012,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.892,37,2,754538881
+755022,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.966,0.999,52.903,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.841,49,2,5813039315
+2863104,DA1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA1,0.858,0.994,51.963,157,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.764,42,2,1734350908
+1811442,DA1 vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA1,0.829,0.992,51.749,183,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.344,7,2,733316908
+38885,DA2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA2,0.967,0.999,52.965,113,uni,uPN,Wong et al. 2002; Stensmyr et al. 2012,1.915,46,3,1797505019
+53631,DA2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA2,0.865,0.994,51.988,113,uni,uPN,Wong et al. 2002; Stensmyr et al. 2012,1.93,35,3,1827516355
+57418,DA2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA2,0.901,0.996,52.274,113,uni,uPN,Wong et al. 2002; Stensmyr et al. 2012,2.354,38,3,818983130
+57422,DA2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA2,0.906,0.996,52.566,113,uni,uPN,Wong et al. 2002; Stensmyr et al. 2012,2.129,17,3,1796817841
+1785034,DA2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DA2,0.95,0.998,52.919,113,uni,uPN,Wong et al. 2002; Stensmyr et al. 2012,2.047,29,3,1796818119
+57349,DA3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DA3,0.945,0.998,52.887,122,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.813,15,5,666135689
+65465,DA3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DA3,0.964,0.999,52.973,122,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.703,14,5,1703683361
+40749,DA4l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DA4l,0.887,0.995,52.349,116,uni,uPN,Yu et al. 2010,1.655,21,5,544021095
+37250,DA4m adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DA4m,0.647,0.978,46.028,117,uni+,uPN,Tanaka et al. 2012 (AL-mPN3),2.721,171,11,574037266
+771242,DC1 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC1,0.853,0.994,52.367,118,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,2.426,106,0,1640594274
+57402,DC2 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC2,0.916,0.997,52.707,114,uni,uPN,Jefferis et al. 2001; Yu et al. 2010,1.488,21,3,1828206773
+65762,DC2 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC2,0.932,0.997,52.85,114,uni,uPN,Jefferis et al. 2001; Yu et al. 2010,1.567,19,5,5813055048
+32399,DC3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC3,0.955,0.998,52.925,153,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.373,7,2,1857825571
+57241,DC3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC3,0.965,0.999,52.957,153,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.421,5,2,1858171399
+57414,DC3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC3,0.979,0.999,52.991,153,uni,uPN,Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.468,9,2,5813039471
+46493,DC4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DC4,0.894,0.996,52.446,139,uni,uPN,this study,2.041,169,3,5813056596
+3813403,DC4 vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC4,0.681,0.981,48.518,40,uni+,uPN,this study,1.914,2,0,1447201088
+1775706,DL1 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL1,0.879,0.995,52.184,120,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),2.89,1,1,1700937093
+11544074,DL1 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL1,0.923,0.997,52.686,120,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),1.401,7,1,1700946301
+30791,DL2d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2d,0.958,0.998,52.906,140,uni,uPN,Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),2.106,4,0,1793351401
+57333,DL2d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2d,0.922,0.997,52.792,140,uni,uPN,Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),1.798,6,0,1793014716
+57337,DL2d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2d,0.966,0.999,52.972,140,uni,uPN,Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),1.696,5,0,788648194
+57341,DL2d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2d,0.955,0.998,52.861,140,uni,uPN,Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),1.965,9,0,1756579280
+699859,DL2d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2d,0.956,0.998,52.885,140,uni,uPN,Yu et al. 2010; Tanaka et al. 2012 (AL-mPN1),1.869,9,0,5813024710
+4340854,DL2d vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL2d,0.737,0.987,47.569,17,uni+,uPN,this study,1.688,2,2,823314446
+22422,DL2v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2v,0.976,0.999,52.984,141,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.909,4,3,1693827279
+56623,DL2v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2v,0.98,0.999,52.973,141,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.456,4,0,5813039465
+61773,DL2v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2v,0.945,0.998,52.777,141,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.767,1,0,1734420152
+67637,DL2v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2v,0.89,0.996,52.096,141,uni,uPN,Yu et al. 2010; Costa et al. 2016,0.001,1,0,5813038793
+5217967,DL2v vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL2v,0.659,0.982,40.083,23,uni+,uPN,this study,1.177,5,0,760250272
+33903,DL3 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DL3,0.903,0.996,51.734,156,uni,uPN,Marin et al. 2002; Jefferis et al. 2007,1.713,30,2,1609542060
+57459,DL3 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DL3,0.934,0.998,52.598,156,uni,uPN,Marin et al. 2002; Jefferis et al. 2007,1.444,9,2,1609542060
+77661,DL3 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DL3,0.956,0.998,52.833,156,uni,uPN,Marin et al. 2002; Jefferis et al. 2007,1.436,5,2,1640568102
+177706,DL3 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DL3,0.984,0.999,52.986,156,uni,uPN,Marin et al. 2002; Jefferis et al. 2007,1.68,23,2,1609883245
+581536,DL3 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DL3,0.962,0.999,52.917,156,uni,uPN,Marin et al. 2002; Jefferis et al. 2007,2.013,24,2,1609542060
+23829,DL4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL4,0.904,0.996,52.696,123,uni,uPN,Wong et al. 2002; Marin et al. 2005; Yu et al. 2010,1.523,11,3,1670934213
+39668,DL5 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DL5,0.956,0.998,52.927,121,uni,uPN,Marin et al. 2005; Jefferis et al. 2007; Yu et al. 2010,2.202,7,1,693483018
+30891,DM1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM1,0.911,0.996,52.729,124,uni,uPN,Wong et al. 2002; Jefferis et al. 2007,3.309,312,0,542634818
+56424,DM2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM2,0.897,0.996,52.589,131,uni,uPN,Wong et al. 2002; Jefferis et al. 2007,1.877,11,0,5901222910
+67408,DM2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM2,0.945,0.998,52.847,131,uni,uPN,Wong et al. 2002; Jefferis et al. 2007,1.791,9,0,630714299
+28876,DM3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DM3,0.93,0.997,52.79,126,uni,uPN,Marin et al. 2005; Jefferis et al. 2007; Yu et al. 2010,2.379,49,0,755518957
+39682,DM4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DM4,0.984,0.999,53.003,125,uni,uPN,Wong et al. 2002; Yu et al. 2010,2.06,83,0,573333835
+5019352,DM4 vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM4,0.671,0.981,46.149,18,uni+,uPN,this study,1.464,1,1,604031203
+22594,DM5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM5,0.762,0.989,47.952,132,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.647,5,0,697485362
+27611,DM5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM5,0.777,0.989,49.384,132,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,1.513,3,3,635416407
+57385,DM5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DM5,0.904,0.996,52.689,132,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007,2.205,7,1,635416407
+57307,DM6 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DM6,0.956,0.998,52.874,133,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.715,5,0,5813039235
+60799,DM6 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DM6,0.926,0.997,52.797,133,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.923,1,0,788306624
+68697,DM6 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DM6,0.995,1.0,53.016,133,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.5,3,5,5813070872
+27048,DP1l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DP1l,0.917,0.997,52.65,143,uni,uPN,Costa et al. 2016; this study,2.786,13,11,724816115
+4632091,DP1l vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1l,0.904,0.996,52.639,17,uni+,uPN,this study,1.166,5,3,730213826
+58686,DP1m adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,DP1m,0.877,0.995,52.582,127,uni,uPN,Wong et al. 2002; Marin et al. 2005; Yu et al. 2010,1.847,31,0,635062078
+1532304,DP1m vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1m,0.884,0.995,52.095,20,uni,uPN,this study,2.858,24,0,634707780
+6695923,DP1m vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1m,0.911,0.996,52.686,20,uni,uPN,this study,3.144,37,0,635048729
+1356477,VP3+ l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP3,0.763,0.989,45.831,177,uni,uPN,Marin et al. 2020 (VP3+ lPN2),1.61,2,7,1788676257
+27884,V ilPN,canonical,ilPN,,,ACh,lALT,V,0.863,0.994,51.634,167,uni,uPN,Stocker et al. 1990; Lin et al. 2013 (PNv-1),2.584,99,9,2064165421
+192547,V ilPN,canonical,ilPN,,,ACh,lALT,V,0.865,0.994,51.565,167,uni,uPN,Stocker et al. 1990; Lin et al. 2013 (PNv-1),2.243,70,9,698508565
+4041464,V l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,V,0.665,0.983,39.817,168,uni+,uPN,Tanaka et al. 2012 (AL-t1PN1); Lin et al. 2013 (VGlut-F-200269),1.557,4,9,666818300
+36390,VA1d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1d,0.978,0.999,52.964,154,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.346,6,1,1851061177
+42421,VA1d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1d,0.969,0.999,52.931,154,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.647,6,1,5813055162
+531931,VA1d vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1d,0.912,0.997,52.63,55,uni,uPN,Tanaka et al. 2012 (AL-mlPN1),2.404,28,11,1888524453
+51080,VA1v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1v,0.903,0.996,52.711,152,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.737,16,1,5813054697
+52106,VA1v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1v,0.941,0.998,52.862,152,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,2.042,12,1,1788300760
+55125,VA1v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1v,0.943,0.998,52.878,152,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.243,7,1,5813024601
+57246,VA1v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA1v,0.914,0.997,52.725,152,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.786,20,1,1788300760
+1722202,VA1v vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1v,0.948,0.998,52.92,57,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010; Tanaka et al. 2012 (AL-mlPN1),1.736,45,2,887105351
+2227866,VA1v vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1v,0.843,0.993,51.223,57,uni,uPN,Marin et al. 2002; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010; Tanaka et al. 2012 (AL-mlPN1),1.929,75,2,856071065
+23432,VA2 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA2,0.86,0.994,52.368,130,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010; Tanaka et al. 2012 (AL-mlPN1),1.476,3,0,1977579449
+57319,VA3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA3,0.837,0.993,50.679,111,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.484,12,2,5813055025
+165303,VA3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA3,0.877,0.995,51.799,111,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.818,11,2,1889253785
+23569,VA4 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA4,0.908,0.996,52.163,112,uni,uPN,Wong et al. 2002; Grabe et al. 2016,1.77,27,0,1630051981
+22906,VA5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA5,0.966,0.999,52.977,106,uni,uPN,Wong et al. 2002,1.367,23,5,574037281
+57361,VA5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA5,0.951,0.998,52.807,106,uni,uPN,Wong et al. 2002,1.382,13,5,574032862
+57365,VA5 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA5,0.935,0.998,52.57,106,uni,uPN,Wong et al. 2002,1.794,21,5,574374051
+16,VA6 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA6,0.892,0.996,52.631,115,uni,uPN,Wong et al. 2002; Marin et al. 2006; Jefferis et al. 2007; Yu et al. 2010,1.485,14,3,1881751117
+57410,VA7l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VA7l,0.918,0.997,52.777,110,uni,uPN,Jefferis et al. 2007; Yu et al. 2010,2.256,11,1,1692817033
+32214,VA7m lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA7m,0.908,0.996,52.74,107,uni,uPN,Jefferis et al. 2007; Costa et al. 2016,1.6,4,1,5813050729
+36108,VA7m lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA7m,0.906,0.996,52.613,107,uni,uPN,Jefferis et al. 2007; Costa et al. 2016,1.327,3,5,5813055180
+186573,VA7m lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA7m,0.839,0.993,51.945,107,uni,uPN,Jefferis et al. 2007; Costa et al. 2016,1.363,8,5,1882083076
+22132,VC1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VC1,0.958,0.998,52.951,109,uni,uPN,Wong et al. 2002; Grabe et al. 2016,2.154,25,5,606090268
+45242,VC2 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VC2,0.931,0.997,52.831,108,uni,uPN,Jefferis et al. 2007,1.627,10,2,1850706912
+23134,VC3l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.917,0.997,52.659,60,uni,uPN,Costa et al. 2016,1.612,5,1,693125078
+41578,VC3l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.907,0.996,52.655,60,uni,uPN,Costa et al. 2016,1.639,2,3,5813000276
+46800,VC3l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.935,0.998,52.91,60,uni,uPN,Costa et al. 2016,1.364,2,1,1914823337
+59129,VC3l adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.622,0.98,37.15,60,uni,uPN,Costa et al. 2016,1.196,1,5,1914823337
+22277,VC3m lvPN,canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC3m,0.855,0.994,52.076,68,uni,uPN,Costa et al. 2016; this study,2.831,4,11,1818307672
+22744,VC3m lvPN,canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC3m,0.883,0.995,52.081,68,uni,uPN,Costa et al. 2016; this study,2.695,3,5,1442819296
+400943,VC3m lvPN,canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC3m,0.916,0.997,52.694,68,uni,uPN,Costa et al. 2016; this study,1.681,11,6,662776660
+37935,VC4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC4,0.934,0.997,52.824,134,uni,uPN,Yu et al. 2010,1.308,13,0,788306724
+42927,VC4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC4,0.912,0.997,52.582,134,uni,uPN,Yu et al. 2010,1.626,14,0,754854077
+55085,VC4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC4,0.959,0.998,52.974,134,uni,uPN,Yu et al. 2010,1.695,11,0,5813055147
+39254,VC5 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VC5,0.668,0.981,45.151,72,uni+,uPN,Yu et al. 2010 (VM6+VP1); this study,1.414,1,6,636789080
+57130,VC5 lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC5,0.824,0.992,50.415,70,uni+,uPN,this study,2.836,5,11,5812995098
+57499,VL1 ilPN,canonical,ilPN,,,ACh,mALT,VL1,0.997,1.0,53.017,163,uni,uPN,Marin et al. 2002; Tanaka et al. 2012 (AL-mPN2),2.951,115,11,2166133204
+73937,VL1 ilPN,canonical,ilPN,,,ACh,mALT,VL1,0.986,1.0,53.009,163,uni,uPN,Marin et al. 2002; Tanaka et al. 2012 (AL-mPN2),6.972,140,11,1912789965
+2846667,VL1 vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL1,0.994,1.0,53.014,49,uni,uPN,Jefferis et al. 2007; Silbering et al. 2011,3.501,77,11,757556799
+21999,VL2a adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VL2a,0.969,0.999,52.96,145,uni,uPN,Wong et al. 2002; Yu et al. 2010; Grosjean et al. 2011,2.081,26,3,5813069089
+1724523,VL2a vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2a,0.662,0.981,43.551,52,uni,uPN,Tanaka et al. 2012 (AL-mlPN1); Costa et al. 2016; this study,2.102,12,6,1889883818
+1903280,VL2a vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2a,0.763,0.99,45.237,52,uni,uPN,Tanaka et al. 2012 (AL-mlPN1); Costa et al. 2016,1.72,18,3,5813077810
+3813455,VL2a vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2a,0.942,0.998,52.75,52,uni,uPN,Tanaka et al. 2012 (AL-mlPN1); Costa et al. 2016,2.073,9,11,948834414
+22976,VL2p adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VL2p,0.977,0.999,52.97,144,uni,uPN,Wong et al. 2002; Yu et al. 2010,2.707,70,1,1944507292
+1702624,VL2p vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2p,0.877,0.995,51.036,53,uni,uPN,Tanaka et al. 2012 (AL-mlPN1); Costa et al. 2016,2.117,10,3,824353701
+24726,VM1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VM1,0.873,0.995,52.185,67,uni,uPN,Wong et al. 2002; Jefferis et al. 2007,2.159,20,6,1850711304
+775731,VM1 lPN,canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VM1,0.898,0.996,52.439,67,uni,uPN,Wong et al. 2002; Jefferis et al. 2007,1.764,14,6,1850711304
+51886,VM2 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM2,0.928,0.997,52.803,128,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.539,2,0,727472481
+54072,VM2 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM2,0.917,0.997,52.721,128,uni,uPN,Jefferis et al. 2001; Wong et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.904,2,0,697132371
+4624374,VM2 vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM2,0.77,0.988,51.011,27,uni+,uPN,this study,1.748,5,0,481268653
+27246,VM3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM3,0.944,0.998,52.829,129,uni,uPN,Wong et al. 2002; Marin et al. 2005; Jefferis et al. 2007; Yu et al. 2010,2.356,51,0,1851389175
+41308,VM3 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM3,0.948,0.998,52.889,129,uni,uPN,Wong et al. 2002; Marin et al. 2005; Jefferis et al. 2007; Yu et al. 2010,2.261,59,0,1977916288
+23597,VM4 adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM4,0.943,0.998,52.844,66,uni,uPN,Wong et al. 2002; Yu et al. 2010,2.221,24,3,694834412
+57003,VM4 lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM4,0.928,0.997,52.807,65,uni,uPN,this study,3.908,58,11,726207450
+57192,VM4 lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM4,0.878,0.995,52.259,65,uni,uPN,this study,4.226,76,11,1850024931
+35447,VM5d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5d,0.811,0.991,51.497,136,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.715,2,1,1914140664
+39139,VM5d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5d,0.923,0.997,52.671,136,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.301,1,1,1006258344
+62434,VM5d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5d,0.906,0.996,52.624,136,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.484,4,1,1914823414
+23512,VM5v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5v,0.946,0.998,52.837,135,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.319,3,1,5813034571
+30434,VM5v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5v,0.929,0.997,52.818,135,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.724,3,1,5813034571
+53671,VM5v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5v,0.928,0.997,52.798,135,uni,uPN,Yu et al. 2010; Costa et al. 2016,1.567,3,1,2010992546
+40306,VM7d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM7d,0.872,0.995,51.883,137,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.785,20,1,1851393805
+11544121,VM7d adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM7d,0.894,0.996,52.193,137,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Jefferis et al. 2007; Yu et al. 2010,2.019,14,1,5813050727
+24251,VM7v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM7v,0.928,0.997,52.595,138,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.672,29,3,693479072
+43539,VM7v adPN,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM7v,0.941,0.998,52.852,138,uni,uPN,Jefferis et al. 2001; Marin et al. 2002; Jefferis et al. 2007; Yu et al. 2010,1.507,24,3,1889253763
+192423,VP1d ivPN,non-canonical,il2PN,,,unknown,dlALT,VP1d,0.773,0.989,49.426,162,uni,uPN,Marin et al. 2020 (VP1d ilvPN),2.107,14,1,1639234609
+203504,VP1d ivPN,non-canonical,il2PN,,,unknown,dlALT,VP1d,0.771,0.99,47.053,162,uni,uPN,Marin et al. 2020 (VP1d ilvPN),1.734,10,1,1639243580
+56999,VP1l+ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1l,0.685,0.982,48.642,103,uni+,uPN,Marin et al. 2020 (VP1l+ lv1PN1),1.182,4,12,5812996748
+57200,VP1l+ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1l,0.725,0.985,49.244,103,uni+,uPN,Marin et al. 2020 (VP1l+ lv1PN1),1.141,6,12,2289223313
+57224,VP1l+ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1l,0.786,0.99,50.621,103,uni+,uPN,Marin et al. 2020 (VP1l+ lv1PN1),1.313,4,12,509626405
+11524119,VP1m l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP1m,0.825,0.992,51.373,100,uni,uPN,Lin et al. 2012 (unPN-2); Tanaka et al. 2012 (lPN1); Marin et al. 2020 (VP1m lPN),2.075,86,3,5813056072
+57516,VP2 adPN,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VP2,0.931,0.997,52.75,97,uni,uPN,"Stocker et al., 1990 (VP2 uACT1); Marin et al. 2020 (VP2 adPN) ",5.366,270,6,1975878958
+5672990,VP2 l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP2,0.975,0.999,52.996,93,uni,uPN,Lin et al. 2012 (unPN-4); Marin et al. 2020 (VP2 lPN),1.899,198,7,5813069447
+1712057,VP2+ adPN,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VP2,0.678,0.981,48.085,98,uni+,uPN,Marin et al. (VP2+ adPN),2.699,7,6,1858901026
+57063,VP2+SEZ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.65,0.979,46.823,90,uni+,uPN,Marin et al. 2020 (VP2+SEZ lv1PN1),1.841,2,6,1881401277
+57146,VP2+SEZ lvPN,non-canonical,lvPN,BAlp4,ALlv1,unknown,mALT,VP2,0.568,0.975,32.982,89,uni+,uPN,Marin et al. 2020 (VP2+SEZ lv1PN2),1.13,1,8,5813077788
+57166,VP2+SEZ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.681,0.982,45.962,89,uni+,uPN,Marin et al. 2020 (VP2+SEZ lv1PN2),1.276,4,6,1974846717
+11234968,VP3+ l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP3,0.827,0.992,50.839,172,uni,uPN,Marin et al. 2020 (VP3+ lPN1),1.758,5,7,1883443112
+4869882,VP3+ l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP3,0.846,0.993,51.788,177,uni,uPN,Liu et al. 2015 (fast-cool PN); Marin et al. 2020 (VP3+ lPN2),2.042,2,7,1788676257
+5471515,VP3 vPN,non-canonical,vPN,BAla1,ALv1,GABA,trans-mlALT,VP3,0.717,0.987,41.091,180,uni+,uPN,"Jenett et al., 2012 (AL-t5PN1); Liu et al. 2015 (slow-cool PN); Marin et al. 2020 (VP3 v1PN)",6.332,89,6,663432544
+2484510,VP4+ vPN,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP4,0.691,0.985,42.135,102,uni+,uPN,Marin et al. 2020 (VP4+ v1PN1),3.008,48,3,543010474
+1149173,VP4 vPN,non-canonical,vPN,BAla1,ALv1,GABA,trans-mlALT,VP4,0.884,0.995,52.482,101,uni,uPN,Marin et al. 2020 (VP4 v1PN),2.415,14,3,634759240
+4672650,VP5 l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP5,0.879,0.995,52.498,173,uni,uPN,Marin et al. 2020 (VP5 lPN),1.536,6,7,2069644133
+14003783,VP5+SEZ adPN,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VP5,0.575,0.97,41.954,169,uni+,uPN,Yu et al. 2010 (poly[emb] adPN); Marin et al. 2020 (VP5+SEZ adPN),2.306,76,6,5813063239
+4876532,VP5+VP2 l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP5,0.651,0.982,38.433,173,uni,uPN,Liu et al 2015 (warm-PN); Marin et al. 2020 (VP5+VP2 lPN),1.482,8,7,2100010400
+5946848,VP5+VP2 l2PN,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP5,0.832,0.993,50.999,173,uni,uPN,Liu et al 2015 (warm-PN); Marin et al. 2020 (VP5+VP2 lPN),1.284,3,7,2038617453
+49865,,canonical,adPN,BAmv3,ALad1,ACh,mALT,VM5d,0.567,0.975,33.398,136,uni,uPN,,1.354,2,1,1888572074
+57216,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DL5,0.44,0.964,23.325,103,uni+,uPN,,1.225,11,12,417199910
+57236,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC5,0.483,0.955,37.138,70,uni+,uPN,,4.445,34,11,1849684319
+1533152,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM2,0.408,0.964,22.87,27,uni+,uPN,Tanaka et al. 2012 (AL-mlPN2),1.316,9,0,635407942
+3742499,VP1l+ lvPN,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1l,0.59,0.974,39.608,103,uni+,uPN,Marin et al. 2020 (VP1l+ lv1PN2),1.186,8,12,417199910
+3813331,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM4,0.499,0.974,25.502,18,uni+,uPN,Tanaka et al. 2012 (AL-mlPN2),1.315,2,1,1069929827
+3813343,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM2,0.511,0.965,32.348,27,uni+,uPN,Tanaka et al. 2012 (AL-mlPN2),1.636,2,1,1694850602
+4624325,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC4,0.49,0.965,28.988,40,uni+,uPN,Tanaka et al. 2012 (AL-mlPN2),1.576,2,3,637462647
+4812228,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL2d,0.523,0.979,24.946,17,uni+,uPN,Tanaka et al. 2012 (AL-mlPN2),0.965,2,2,792616185
+4949516,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM3,0.682,0.983,45.387,28,multi,mPN,this study,1.81,21,0,1570685283
+8825246,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,VC5,0.321,0.917,18.637,176,multi,mPN,Frank et al. 2015 (slow hot and cold t3ALT PN); Marin et al. 2020 (VC5++ lPN1),1.834,9,7,1661769627
+8406430,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VC5,0.313,0.94,13.885,178,multi,mPN,Lin et al. 2020 (biPN-4); Marin et al. 2020 (VC5++ lPN2),1.574,3,7,1788685103
+1363077,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,VC5,0.317,0.894,27.578,176,multi,mPN,Frank et al. 2015 (slow hot and cold t3ALT PN); Marin et al. 2020 (VC5++ lPN1),1.836,13,7,1755556277
+3813438,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1l,0.397,0.948,22.866,46,multi,mPN,Marin et al. 2020 (VP1d+VP1l v1PN),1.727,5,10,1070613107
+23005,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP1d,0.319,0.903,24.09,77,multi,mPN,Lin et al. 2012 (biPN-2); Marin et al. 2020 (VP1d+VP4 lPN1),1.82,34,10,1727979406
+3908507,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP4,0.509,0.966,30.382,48,multi,mPN,"Stocker et al., 1990 (VP3 oACT); Marin et al. 2020 (VP1d+VP4 lPN2) ",1.695,16,10,5901222731
+57487,,non-canonical,ilPN,,,unknown,mALT,VP1l,0.496,0.975,24.799,164,oligo,mPN,Stocker et al. 1990 (VP3 bilateral PN); Marin et al. 2020 (VP1l+VP3 ilPN),3.631,7,4,603785283
+57495,,non-canonical,ilPN,,,unknown,mALT,VP1l,0.533,0.975,28.057,164,oligo,mPN,Marin et al. 2020 (VP1l+VP3 ilPN),3.128,2,4,850717220
+57142,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP5,0.399,0.953,19.617,96,multi,mPN,Marin et al. 2020 (VP1m++ lv1PN),2.583,37,6,1943812176
+192430,,non-canonical,lvPN,BAlp4,ALlv1,unknown,trans-mALT,VP1m,0.541,0.973,30.844,99,multi,mPN,Marin et al. 2020 (VP1m+ lv1PN2),1.777,12,6,663787020
+3813424,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1m,0.558,0.968,41.681,46,multi,mPN,Marin et al. 2020 (VP1m+VP1d v1PN),2.042,4,4,947513805
+57122,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1m,0.326,0.949,15.554,96,multi,mPN,Marin et al. 2020 (VP1m+VP2 lv1PN1),2.347,29,6,1975187675
+57114,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.545,0.972,31.585,96,multi,mPN,Marin et al. 2020 (VP1m+VP2 lv1PN1),1.655,5,6,1881059780
+57138,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP5,0.443,0.962,22.481,91,multi,mPN,Marin et al. 2020 (VP2+VP5 lv1PN),1.713,11,7,850708783
+4058666,,non-canonical,lvPN,BAlp4,ALlv1,unknown,trans-mALT,VP1m,0.458,0.958,26.896,99,multi,mPN,Marin et al. 2020 (VP1m+VP2 lv1PN2),1.959,8,6,664814903
+46105,,non-canonical,ilPN,,,unknown,mALT,VP5,0.574,0.977,31.307,166,oligo,mPN,Frank et al. 2017 (R24G07 hPN); Marin et al. 2020 (VP1m+VP5 ilPN),2.127,53,6,1944502935
+57503,,non-canonical,ilPN,,,unknown,mALT,VP5,0.45,0.972,23.579,166,oligo,mPN,Frank et al. 2017 (R24G07 hPN); Marin et al. 2020 (VP1m+VP5 ilPN),2.037,73,6,2069648663
+2600341,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP2,0.522,0.972,27.989,178,multi,mPN,Lin et al. 2012 (biPN-3); Marin et al. 2020 (VP2+VC5 lPN),2.257,1,2,1225100939
+7017522,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP3,0.451,0.967,23.294,178,multi,mPN,Marin et al. 2020 (VP3++ lPN),1.783,2,7,1788680591
+37513,,non-canonical,ivPN,,,unknown,mALT,VP3,0.569,0.981,27.626,165,oligo,mPN,Frank et al. 2015 (cold-activated tPN); Marin et al. 2020 (VP3+VP1l ivPN),2.254,92,6,1755556097
+45882,,non-canonical,ivPN,,,unknown,mALT,VP1l,0.487,0.98,23.959,165,oligo,mPN,Frank et al. 2015 (cold-activated tPN); Marin et al. 2020 (VP3+VP1l ivPN),1.715,66,6,5813040515
+1664544,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,VL1,0.376,0.948,18.651,175,multi,mPN,Liu et al. 2015 (warm-cool PN); Marin et al. 2020 (VP4+VP2+VL1 lPN),1.463,4,4,1789013008
+4671556,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-lALT,VP3,0.509,0.979,24.548,185,oligo,mPN,Lin et al. 2012 (unPN-6 ); Frank et al. 2015 (cool lALT PN); Marin et al. 2020 (VP5+VP3 lPN),2.001,7,7,2065197353
+32793,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,mALT,VM1,0.08,0.581,0.536,73,pan,mPN,,2.747,33,4,1037293275
+32801,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,mALT,D,0.1,0.631,3.731,73,pan,mPN,,2.345,39,4,1733677514
+37212,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1d,0.277,0.867,24.224,82,multi,mPN,this study; Tanaka et al. 2012 (AL-mlPN4 with some differences),1.764,19,1,1887163927
+37235,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1d,0.097,0.723,0.769,86,pan,mPN,this study; Tanaka et al. 2012 (AL-mlPN4 with some differences),1.788,48,1,1917188956
+49026,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.223,0.892,12.129,64,multi,mPN,,1.433,1,1,1887872301
+56983,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VA4,0.334,0.924,20.27,13,multi,mPN,,1.523,1,2,1943811511
+56995,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM3,0.309,0.925,16.459,10,multi,mPN,,0.0,0,2,5813079228
+57007,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DP1l,0.177,0.865,6.886,104,multi,mPN,,3.668,11,8,5812995298
+57011,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA1,0.322,0.916,20.454,148,multi,mPN,,0.001,1,2,851684181
+57015,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC5,0.411,0.948,23.735,71,multi,mPN,,0.965,19,5,1504889437
+57019,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC4,0.262,0.895,14.02,148,multi,mPN,,1.277,1,9,1827473315
+57023,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC4,0.441,0.956,27.491,149,multi,mPN,,0.0,0,15,730252777
+57035,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA1,0.389,0.94,24.575,150,multi,mPN,,1.799,4,2,792023887
+57039,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VA7m,0.327,0.907,24.3,147,multi,mPN,,2.588,2,9,1732313117
+57047,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DC4,0.233,0.873,13.31,149,multi,mPN,,0.0,0,9,1765415970
+57051,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.44,0.969,22.51,91,multi,mPN,this study,1.223,3,7,1975187554
+57059,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP1m,0.427,0.966,21.333,96,multi,mPN,Marin et al. 2020 (VP1m+VP2 lv1PN1),2.187,19,6,1943811736
+57076,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VA5,0.258,0.91,11.432,147,multi,mPN,,0.0,0,9,1795410644
+57080,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VA7m,0.268,0.884,16.241,147,multi,mPN,,1.738,1,9,697844568
+57089,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA1,0.258,0.899,12.805,148,multi,mPN,,0.002,2,2,792024028
+57126,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.205,0.881,7.519,92,pan,mPN,this study,1.301,6,7,1856820042
+57134,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP2,0.48,0.959,31.329,91,multi,mPN,this study,1.562,10,7,1912777226
+57158,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DC3,0.438,0.951,28.712,150,multi,mPN,,1.178,1,2,757258507
+57171,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DL2d,0.208,0.904,7.365,104,multi,mPN,,3.121,3,8,5901194556
+57175,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC5,0.499,0.959,36.584,71,multi,mPN,,1.119,4,0,632751823
+57179,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA1,0.517,0.968,31.273,150,multi,mPN,,1.463,6,2,757591093
+57196,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DL4,0.319,0.929,16.576,104,multi,mPN,,1.112,2,12,1670597454
+57204,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC3l,0.275,0.918,14.297,69,multi,mPN,,2.165,10,2,5812992940
+57208,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VL2p,0.326,0.922,18.575,69,multi,mPN,,4.208,32,11,1849683877
+57212,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DL4,0.199,0.889,8.078,104,multi,mPN,,2.878,6,8,5901194250
+57220,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VA4,0.295,0.907,16.558,9,multi,mPN,,0.0,0,4,1670973150
+57232,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA2,0.216,0.852,10.178,92,pan,mPN,,2.144,9,7,1912435859
+57254,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3m,0.214,0.867,10.179,64,multi,mPN,,1.623,1,9,762982753
+57258,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VL2p,0.32,0.92,20.182,61,multi,mPN,,1.522,5,10,788940872
+57266,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.175,0.842,6.976,64,multi,mPN,,0.0,0,13,762982753
+57270,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3m,0.312,0.951,14.346,62,multi,mPN,,1.965,8,10,1888213190
+57274,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VL2p,0.281,0.944,11.155,142,multi,mPN,,2.709,15,3,1886132855
+57278,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.164,0.84,5.196,63,pan,mPN,,1.853,3,10,1916528384
+57389,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VL1,0.163,0.862,4.923,83,pan,mPN,,4.73,111,8,1693486219
+57394,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA7l,0.275,0.886,18.27,87,multi,mPN,,3.321,50,8,1856833015
+57426,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1d,0.444,0.942,39.045,82,multi,mPN,this study,1.475,18,1,1857148391
+57430,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP2,0.279,0.936,11.494,174,multi,mPN,this study,1.646,21,8,819993149
+57434,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,unknown,mALT,VP2,0.284,0.917,14.227,174,multi,mPN,this study; Tanaka et al. 2012 (AL-mlPN4),1.468,24,8,1630734360
+57442,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1l,0.253,0.865,16.609,85,pan,mPN,this study; Tanaka et al. 2012 (AL-mlPN4 with some differences),1.996,63,8,850703925
+57446,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1d,0.233,0.85,15.137,82,multi,mPN,this study,1.526,10,1,1825085656
+57450,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VL1,0.241,0.913,13.066,87,multi,mPN,,4.532,88,8,5812983069
+57455,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VA7l,0.36,0.924,25.559,88,multi,mPN,,3.57,54,8,5813024799
+57463,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VL1,0.325,0.941,18.379,84,multi,mPN,,2.964,70,8,5813044177
+57467,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,DC4,0.162,0.844,5.312,85,pan,mPN,Tanaka et al. 2012 (AL-mlPN4 with some differences),1.813,67,8,850708902
+57475,,non-canonical,smPN,,,unknown,mALT,VP3,0.558,0.974,32.062,94,multi,mPN,this study,1.434,6,8,763730414
+57479,,non-canonical,VUMa2,,,Octopamine,mALT,VL1,0.051,0.362,-0.631,158,pan,mPN,,2.071,156,1,1670265016
+57536,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,mALT,VL2p,0.42,0.935,37.533,75,multi,mPN,,1.856,45,1,1794055377
+57543,,non-canonical,adPN,BAmv3,ALad1,ACh,trans-mALT,V,0.141,0.784,3.912,74,pan,mPN,,2.022,50,9,5813024692
+73926,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,DP1l,0.405,0.954,19.519,142,multi,mPN,,1.704,30,3,1762674761
+80008,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,VC3l,0.178,0.83,7.089,63,pan,mPN,,1.889,1,10,2040344064
+177540,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DP1l,0.178,0.852,6.075,146,pan,mPN,,1.445,6,9,609924156
+177545,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM3,0.05,0.43,-0.808,3,pan,mPN,,1.724,27,4,577542489
+177549,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA1,0.258,0.908,11.167,12,multi,mPN,,1.352,2,4,5813079228
+177584,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC4,0.069,0.485,0.382,3,pan,mPN,,1.918,13,4,1671952694
+177656,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VC4,0.26,0.934,12.158,9,multi,mPN,,1.253,2,4,329599710
+177997,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VL2p,0.094,0.676,0.551,6,pan,mPN,,1.73,5,4,1411784734
+182684,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP1d,0.391,0.928,32.329,82,multi,mPN,this study; Tanaka et al. 2012 (AL-mlPN4 with some differences),1.527,13,1,1827861966
+199461,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,mALT,DA2,0.118,0.756,3.494,80,pan,mPN,,1.87,12,8,1723506321
+583167,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1d,0.37,0.934,23.573,56,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.556,7,3,882353566
+709943,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC4,0.173,0.839,7.953,38,pan,mPN,Tanaka et al. 2012 (AL-mlPN2),0.0,0,2,1415829574
+856254,,non-canonical,VUMa2,,,Octopamine,mALT,VL2a,0.064,0.557,-0.413,159,pan,mPN,,2.473,115,1,638481581
+1136366,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DM3,0.236,0.874,11.161,11,pan,mPN,,0.0,0,0,1670969304
+1136923,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DM1,0.45,0.971,23.21,9,multi,mPN,,0.0,0,4,1759999022
+1137895,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM3,0.216,0.913,7.997,12,multi,mPN,,1.535,1,4,1672293837
+1142316,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DL5,0.202,0.872,7.883,7,multi,mPN,,1.535,1,4,639276164
+1144225,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DM2,0.256,0.91,13.648,7,multi,mPN,,1.412,3,4,1730656082
+1144402,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DM1,0.327,0.947,15.548,8,multi,mPN,,1.803,6,4,5812995328
+1334915,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,DM4,0.086,0.52,2.392,5,pan,mPN,,1.798,16,4,1700307582
+1339810,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,V,0.308,0.887,28.087,81,multi,mPN,Lin et al. 2013 (VGlut-F-F100184); Tanaka et al. 2012 (AL-lPN2),1.564,14,9,1793403571
+1372988,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VP5,0.316,0.941,14.486,91,multi,mPN,this study,1.885,4,7,850708783
+1533901,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM5d,0.294,0.921,16.107,26,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.905,2,0,697145036
+1695556,,non-canonical,adPN,BAmv3,ALad1,ACh,mALT,DL2v,0.557,0.976,30.092,142,multi,mPN,,1.465,14,3,788945049
+1720254,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,DA3,0.166,0.842,5.296,151,pan,mPN,,1.682,22,2,757569579
+1722886,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.173,0.867,6.532,37,pan,mPN,Tanaka et al. 2012 (AL-mlPN2),1.554,4,3,1570685257
+1724508,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA2,0.318,0.935,18.449,14,multi,mPN,,0.002,2,5,5813008771
+1725235,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA7l,0.188,0.847,7.984,50,pan,mPN,Tanaka et al. 2012 (AL-mlPN2),1.396,1,4,823037476
+1727913,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,DP1l,0.108,0.664,4.244,2,pan,mPN,,1.943,20,4,1671638278
+1759551,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM3,0.272,0.891,15.197,35,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.212,5,2,727855437
+1909670,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1d,0.335,0.927,21.312,58,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.473,28,10,1415825344
+2050178,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.227,0.898,8.767,26,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.491,8,0,1447205602
+2070199,,non-canonical,ilPN,,,unknown,trans-mALT,DL4,0.088,0.62,1.99,78,pan,mPN,,3.248,46,1,1671608112
+2182498,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC3,0.374,0.94,21.019,54,multi,mPN,,1.579,9,2,882353566
+2645953,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL3,0.466,0.967,24.849,155,oligo,mPN,Tanaka et al. 2012 (AL-mlPN2),1.368,2,2,886812643
+2766186,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA4,0.051,0.296,1.172,4,pan,mPN,Lin et al. 2013 (GH146-M-000001); Tanaka et al. 2012 (AL-mlPN3),4.897,124,4,610274046
+2845576,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,D,0.299,0.938,14.825,33,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),3.233,16,5,1322353824
+2992998,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC2,0.288,0.916,13.199,30,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.014,3,3,761938645
+3003322,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM4,0.041,0.286,-1.024,4,pan,mPN,Lin et al. 2013 (GH146-M-000001); Tanaka et al. 2012 (AL-mlPN3),2.224,117,4,610274029
+3020362,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC1,0.472,0.974,24.118,32,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.646,20,5,1447205712
+3139915,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1d,0.477,0.957,32.627,58,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),3.911,135,10,1099911913
+3467989,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC2,0.494,0.96,34.001,15,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.602,5,5,1570684665
+3648956,,non-canonical,lPN,BAlc_dorsal,ALl1_dorsal,ACh,mALT,VP3,0.369,0.947,17.441,174,multi,mPN,this study,1.512,12,8,819993149
+3663498,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1v,0.389,0.935,26.918,59,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.484,129,10,1322012611
+3771419,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM2,0.259,0.901,11.042,25,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.933,2,5,572663539
+3813278,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA3,0.29,0.925,16.306,16,multi,mPN,,1.193,3,5,1570685033
+3813282,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM3,0.235,0.891,10.384,21,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),0.0,0,0,729544359
+3813322,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC1,0.217,0.912,7.758,42,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.09,6,5,5813045696
+3813335,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM2,0.364,0.95,20.742,26,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.357,4,0,573669915
+3813347,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.279,0.911,13.329,35,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.398,8,3,1701325725
+3813351,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA2,0.279,0.929,10.986,42,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.291,4,5,541632990
+3813399,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1m,0.523,0.966,34.584,184,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.709,12,0,5813034081
+3813430,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM5v,0.335,0.934,16.292,32,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.808,10,5,604726283
+3813434,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.323,0.935,20.174,25,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.626,12,0,5813013823
+3813442,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1d,0.296,0.929,13.611,45,multi,mPN,this study,0.0,0,3,5812983053
+3813447,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1d,0.35,0.937,18.772,45,multi,mPN,this study,0.0,0,10,976830572
+3813451,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.206,0.885,6.812,41,pan,mPN,Tanaka et al. 2012 (AL-mlPN2),1.881,24,0,698526273
+3813483,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA2,0.372,0.939,22.501,39,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.725,2,3,5813054911
+3813487,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.229,0.889,12.882,39,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.597,1,3,759922408
+3813495,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.527,0.965,36.763,39,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.89,3,3,729219639
+3813499,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA4m,0.232,0.899,9.565,14,multi,mPN,,0.0,0,5,294792184
+3842493,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL1,0.24,0.898,10.0,33,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.225,14,4,5813071409
+3903440,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC3,0.331,0.948,14.582,31,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.186,19,6,1037518512
+3922783,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2p,0.336,0.923,20.609,59,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.984,71,10,977866721
+3959520,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,D,0.313,0.909,19.81,33,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),3.174,8,11,1322353841
+3998193,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA1d,0.5,0.958,38.562,58,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.301,41,10,1857143769
+3999003,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VL2a,0.327,0.925,20.773,59,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.824,87,10,5813041247
+4002166,,non-canonical,lv2PN,,,unknown,trans-lALT,VP2,0.388,0.935,26.549,179,multi,mPN,this study,1.484,5,7,1888178718
+4195469,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,lALT,VP1m,0.222,0.871,12.412,76,multi,mPN,Lin et al. 2012 (unPN-5),1.571,4,1,1917866877
+4491591,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA6,0.359,0.936,20.1,54,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.702,8,2,1539978151
+4624321,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA4,0.471,0.956,32.185,21,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),0.0,0,0,5813090752
+4624334,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.364,0.939,19.508,26,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.456,3,0,5813013823
+4624338,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DM3,0.464,0.961,26.612,28,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.076,10,0,1571025824
+4624346,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1m,0.244,0.911,10.234,19,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.118,3,1,636418270
+4624362,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM3,0.525,0.972,27.422,28,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.718,10,0,603349484
+4624378,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.306,0.917,18.742,36,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.342,3,3,5812996003
+4631791,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA2,0.262,0.932,10.792,39,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.665,3,2,975457916
+4632023,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1d,0.37,0.959,17.07,45,multi,mPN,this study,0.0,0,6,976830572
+4632101,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.376,0.942,19.537,39,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.086,18,0,760264077
+4632128,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA3,0.366,0.923,27.936,22,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.295,24,0,791298858
+4632208,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DC4,0.243,0.854,16.696,24,pan,mPN,Tanaka et al. 2012 (AL-mlPN2),1.259,3,0,697848868
+4662243,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7v,0.374,0.954,18.272,44,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.136,3,5,542665377
+4905365,,non-canonical,spPN,,,unknown,trans-mALT,DP1l,0.18,0.753,14.691,1,pan,mPN,"Tanaka et al. 2012 (AL-t4PN1, without PLP branch)",1.938,8,4,1316245799
+4926877,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA3,0.227,0.88,9.977,51,pan,mPN,Tanaka et al. 2012 (AL-mlPN3),2.233,17,4,2383731281
+4927529,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM3,0.414,0.947,25.86,28,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.159,11,0,1819326555
+4954519,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VP1m,0.231,0.901,11.14,47,multi,mPN,this study,2.162,8,4,1322353714
+4954525,,non-canonical,imPN,,,unknown,lALT,VM5v,0.063,0.565,0.03,160,pan,mPN,Tanaka et al. 2012 (AL-lPN3),2.431,113,4,1701299822
+5169854,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VL1,0.28,0.927,12.291,105,multi,mPN,,2.865,3,8,5812992942
+5485737,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA6,0.279,0.915,12.962,29,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.816,22,9,5813071369
+5494609,,non-canonical,lvPN,BAlp4,ALlv1,ACh,mALT,VM3,0.382,0.928,29.561,9,multi,mPN,,0.002,2,4,5813069532
+6622015,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VM7d,0.331,0.942,17.51,43,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.273,1,1,542652506
+6649190,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,VL1,0.338,0.924,21.456,171,multi,mPN,,1.712,1,9,1978573010
+6696675,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC2,0.289,0.906,18.46,34,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.684,20,0,760250511
+6698696,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DL4,0.286,0.928,12.135,29,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),2.258,31,9,1570685132
+6699444,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA2,0.362,0.94,19.407,42,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),0.0,0,5,480927537
+6700447,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DP1m,0.414,0.95,23.414,19,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.128,1,3,667823920
+6701307,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC4,0.351,0.952,17.686,28,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),0.0,0,0,634379734
+6701319,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VC4,0.397,0.966,17.903,28,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.043,2,0,635407942
+6702019,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,VA3,0.203,0.894,7.68,22,multi,mPN,Tanaka et al. 2012 (AL-mlPN2),1.401,13,0,605050789
+6967069,,non-canonical,vPN,BAla1,ALv1,GABA,mlALT,DA3,0.29,0.921,14.545,14,multi,mPN,,0.002,1,0,1570685224
+8566851,,non-canonical,lv2PN,,,unknown,lALT,VA1d,0.371,0.926,27.535,170,multi,mPN,Tanaka et al. 2012 (AL-lPN4),1.769,8,7,1825440160
+8715672,,non-canonical,ilPN,,,unknown,trans-mALT,DA2,0.105,0.687,2.529,161,pan,mPN,,2.851,33,1,1702306047
+8777795,,non-canonical,spPN,,,unknown,trans-lALT,DM4,0.162,0.837,5.604,181,pan,mPN,,0.0,0,14,1733370882
+10078400,,non-canonical,l2PN,BAlc_ventral,ALl1_ventral,unknown,trans-mALT,VP5,0.297,0.928,13.652,95,multi,mPN,this study,1.547,3,1,5813083723
+11546775,,non-canonical,smPN,,,unknown,trans-mALT,VP1m,0.21,0.795,18.92,79,pan,mPN,this study,1.934,161,8,5812982656
+12070989,,non-canonical,imPN,,,unknown,lALT,VM5v,0.08,0.567,1.324,160,pan,mPN,Tanaka et al. 2012 (AL-mlPN3),2.486,129,4,1701299822
