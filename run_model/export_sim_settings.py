@@ -6,10 +6,8 @@ print('loading packages...')
 import os
 import sys 
 
-# set home directory (the path to ALModel/)
-# please be inside ALModel/!!
+# set home directory (the path to ALVariability/)
 file_path = os.path.abspath(__file__)
-
 project_dir = os.path.join(file_path.split('ALVariability')[0], 'ALVariability')
 if not os.path.exists(project_dir):
     raise NameError('set path to ALVariability')
@@ -52,27 +50,31 @@ time_tag = day_tag + '-' + sec_tag
 #### SET PARAMETERS
     
 # odors, sequentially
-# MAC odors
-odor_panel = [
-    '3-octanol',
-    #'1-hexanol',
-    #'ethyl lactate',
-    #'citronella',
-    #'2-heptanone',
-    #'1-pentanol',
-    #'ethanol',
-    #'geranyl acetate',
-    #'hexyl acetate',
-    '4-methylcyclohexanol',
-    #'pentyl acetate',
-    #'1-butanol'
-]
+bhandawat_odors = np.array(['benzaldehyde', 
+                        'butyric acid',
+                        '2,3-butanedione',
+                        '1-butanol',
+                        'cyclohexanone',
+                        'Z3-hexenol', # originally 'cis-3-hexen-1-ol',
+                        'ethyl butyrate',
+                        'ethyl acetate',
+                        'geranyl acetate',
+                        'isopentyl acetate', # originally 'isoamyl acetate',
+                        '4-methylphenol', # originally '4-methyl phenol',
+                        'methyl salicylate',
+                        '3-methylthio-1-propanol',
+                        'octanal',
+                        '2-octanone',
+                        'pentyl acetate', 
+                        'E2-hexenal', # originally 'trans-2-hexenal',
+                        'gamma-valerolactone'])
+odor_panel = bhandawat_odors
 
 # duration of odor stimulus (seconds)
-odor_dur = 0.01
+odor_dur = 0.4
 
 # break between odor stimuli (seconds)
-odor_pause = 0.01
+odor_pause = 0.25
 
 # simulation time after last stimulus (seconds)
 end_padding = 0.01
@@ -81,7 +83,7 @@ end_padding = 0.01
 # load hemibrain + odor imputation data
 projects_path = os.path.join(file_path.split('projects')[0], 'projects')
 df_neur_ids = pd.read_csv(os.path.join(project_dir, 'connectomics/hemibrain_v1_2/df_neur_ids.csv'), index_col=0)
-al_block = pd.read_csv(os.path.join(project_dir, 'connectomics/hemibrain_v1_2/al_block.csv'), index_col=0)
+al_block = pd.read_csv(os.path.join(project_dir, 'connectomics/hemibrain_v1_2/AL_block.csv'), index_col=0)
 imput_table = pd.read_csv(os.path.join(project_dir, 'odor_imputation/df_odor_door_all_odors_imput_ALS.csv'), index_col=0)
 
 
@@ -114,13 +116,13 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_sweep_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_sweep_Bhandawat_odors_{sec_tag}'
 run_explanation = '''
-v1.2 of hemibrain stats, with mPNs
-using ALS imputation
+v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
+using ALS imputed Bhandawat 2007 odors
+1/6.4 of LNs are set as excitatory (Tsai et al, 2018), 
+    drawn randomly from top 50\% of LNs when sorted by number of glomeruli innervated 
 ORN decay timescale 110 ms to 75% (Kao and Lo, 2020)
-max ORN odor rate 400 Hz
-using cython to do LIF
 '''
 
 # erase output
