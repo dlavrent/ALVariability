@@ -8,6 +8,10 @@ Created on Tue Apr 13 18:41:53 2021
        
 
 import os
+import sys
+file_path = os.path.abspath(__file__)
+project_dir = os.path.join(file_path.split('ALVariability')[0], 'ALVariability')
+sys.path.append(project_dir)
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -17,6 +21,8 @@ from matplotlib.gridspec import GridSpec
 from itertools import product
 from scipy.stats import pearsonr
 from matplotlib.lines import Line2D
+from scipy.spatial.distance import pdist
+from utils.model_params import params as default_params
 
 def set_font_sizes(SMALL_SIZE=14, MEDIUM_SIZE=16, LARGE_SIZE=20):
     '''
@@ -70,12 +76,6 @@ def plot_sim_ORN_PN_firing_rates(sim, df_AL_activity, show_pts=False):
     #plt.show()
     
     
-
-
-
- 
-
-
 
 
     
@@ -732,3 +732,159 @@ def plot_iln_or_eln_syn_strengths(fig, axs, post_type, df_long_connect, nbins=50
     plt.suptitle(f'inputs to {post_type}s')
 
     #plt.show()
+    
+    
+    
+
+def plot_electrophys_hmap(jdir_params_seed):
+    
+    params = ['V0', 'Vthr', 'Vmax', 'Vmin', 
+              'Cmem', 'Rmem', 'APdur', 
+              'PSCmag', 'PSCrisedur', 'PSCfalldur']
+    neur_types = ['ORN', 'LN', 'PN']
+    param_dict = jdir_params_seed['hemi_params']
+    df_params = []; df_default_params = []
+    
+    for p in params:
+        # job params
+        row_ps = [param_dict['{}_{}'.format(p, t)] for t in neur_types]
+        row = pd.Series(row_ps, index=neur_types, name=p)
+        df_params.append(row)
+        # default params
+        default_row_ps = [default_params['{}_{}'.format(p, t)] for t in neur_types]
+        default_row = pd.Series(default_row_ps, index=neur_types, name=p)
+        df_default_params.append(default_row)
+        
+    pd.set_option('display.float_format', '{:.2g}'.format)
+    df_params = pd.DataFrame(df_params)
+    df_default_params = pd.DataFrame(df_default_params)
+    df_dist_from_default = ((df_params - df_default_params)/df_default_params).replace([np.nan, -0], 0)
+    df_dist_from_default = df_dist_from_default.replace([-np.inf, np.inf], [-100, 100])
+    #df_dist_from_default = df_params - df_default_params
+    
+    df_output = df_params.copy()
+    for t in neur_types:
+        df_output[t] = df_params[t].map('{:.3g}'.format) + \
+            '\n(' + df_default_params[t].map('{:.3g}'.format) + ')'
+
+    
+    #plt.figure(figsize=(6,6))
+    plt.title('Electrophys params, default values in (),\ncolored by change from default')
+    sns.heatmap(df_dist_from_default, annot=df_output, fmt='', # annot_kws={"size": 8},
+                linewidths=1, linecolor='k',
+                cmap='bwr', center=0, vmin=-1e-6, vmax=1e-6, cbar=False)
+    plt.tight_layout()
+    #plt.show()
+
+
+    
+def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs):
+    
+    bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/bhandawat_fig6_quantification.csv')
+    df_bhand = pd.read_csv(bhand_filepath)
+    df_bhand_pn = df_bhand[df_bhand.cell_type == 'PN']
+    df_bhand_orn = df_bhand[df_bhand.cell_type == 'ORN']
+    
+    #plt.figure(figsize=(12,8))
+    gs = GridSpec(2,2, height_ratios=[1.8,1])
+    
+    ax1 = plt.subplot(gs[0, :])
+    plt.title('Firing rates of ORNs/LNs/PNs when odors on/off')
+    plot_AL_activity_dur_pre_odors(df_AL_activity_long)
+
+    max_fr = df_AL_activity_long['fr'].max()
+    b = np.arange(-20, max_fr, 20)
+    keyword = 'peak'
+
+    ax2 = plt.subplot(gs[1,0])
+    plt.title('ORN FR during odors - FR off odors')
+    cnts, left_pts = np.histogram(df_orn_frs.values.flatten(), bins=b)
+    plt.bar(left_pts[:-1], cnts/sum(cnts),
+            align='edge', width=20, color='k', alpha=.6, 
+            label='model (full odor stimulus)')
+    plt.bar(df_bhand_orn['firing_rate'].values, df_bhand_orn['fraction'].values, 
+            align='edge', width=20, color='gold', alpha=.6, 
+            label='Bhandawat 2007\n({})'.format(keyword))
+    ax2.legend()
+    plt.xlabel('ORN firing rate (Hz) relative to baseline')
+    plt.ylabel('fraction of ORNs*odors')
+
+    ax3 = plt.subplot(gs[1,1], sharey=ax2)
+    plt.title('uPN FR during odors - FR off odors')
+    cnts, left_pts = np.histogram(df_upn_frs.values.flatten(), bins=b)
+    plt.bar(left_pts[:-1], cnts/sum(cnts), 
+            align='edge', width=20, color='k', alpha=.6, 
+            label='model (full odor stimulus)')
+    plt.bar(df_bhand_pn['firing_rate'].values, df_bhand_pn['fraction'].values, 
+            align='edge', width=20, color='gold', alpha=.6, 
+            label='Bhandawat 2007\n({})'.format(keyword))
+    ax3.legend()
+    plt.xlabel('uPN firing rate (Hz) relative to baseline')
+    plt.ylabel('fraction of PNs*odors')
+    plt.subplots_adjust(hspace=0.1)
+    plt.tight_layout()
+
+    
+def plot_fig_orn_pn_stats(fig_orn_pn, orn_table, pn_table, cmap='bwr'):
+
+    odor_names = orn_table.columns
+    
+
+    cbar_ax = fig_orn_pn.add_axes([.91, .4, .03, .4])
+
+    gs = GridSpec(5, 3, height_ratios=[6,2,6,2,7], width_ratios=[1.5,2,1])
+    
+    odv = orn_table.T.values; pdv = pn_table.T.values
+    maxz = max(np.max(odv), np.max(pdv)); minz = min(np.min(odv), np.min(pdv))
+    orn_dists = pdist(odv, metric='euclidean'); pn_dists = pdist(pdv, metric='euclidean')
+    
+    mindist = min(min(orn_dists), min(pn_dists)); maxdist = max(max(orn_dists), max(pn_dists))
+    
+
+    ##### TOP HALF: HEATMAPS
+    # ORN heatmap
+    ax1 = plt.subplot(gs[0, :]); ax1.set_title('ORNs')
+    sns.heatmap(orn_table.T, ax=ax1, cbar_ax=cbar_ax,
+                fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
+
+    # filler
+    axf = plt.subplot(gs[1, :]); axf.set_visible(False)
+
+    # PN heatmap
+    ax3 = plt.subplot(gs[2, :]); ax3.set_title('PNs')
+    sns.heatmap(pn_table.T, ax=ax3, cbar_ax=cbar_ax,
+                fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
+
+    # filler
+    axf = plt.subplot(gs[3, :]); axf.set_visible(False)
+
+    ##### BOTTOM HALF: COMPARISONS
+    # plot firing rates PN vs ORN
+    ax5 = plt.subplot(gs[4,0])
+    for od in odor_names:
+        plt.plot(orn_table[od], pn_table[od], 'o', label=od)
+    plt.xlabel('ORN firing rate'); plt.ylabel('PN firing rate')
+    plt.title('Mean glom PN vs. ORN frs')
+    plt.legend(bbox_to_anchor=(1.05, -0.2), title=r'odors (mean $\pm$ sd)')
+
+    # plot euclidean distances
+    ax6 = plt.subplot(gs[4,1])
+    plt.title('Distance b/w odor pairs in PN/ORN space')    
+    b = np.linspace(mindist, maxdist, 12)  
+    plt.hist(orn_dists, label='ORN', alpha=0.6, bins=b, color='xkcd:light blue')
+    plt.hist(pn_dists, label='PN', alpha=0.6, bins=b, color='xkcd:navy')
+    plt.xlabel('pairwise euclidean distance'); plt.ylabel('# odor pairs')
+    plt.legend()
+
+    # plot as scatter plot
+    ax7 = plt.subplot(gs[4,2])
+    plt.scatter(orn_dists, pn_dists, color='k')
+    plt.plot([mindist, maxdist], [mindist, maxdist], color='0.5', ls='--')
+    plt.xlabel('ORN pairwise distance'); plt.ylabel('PN pairwise distance')
+
+    # final adjustments
+    plt.subplots_adjust(hspace=0.15, wspace=0.25)
+    
+    return orn_dists, pn_dists
+    
+    

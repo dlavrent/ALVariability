@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
+import seaborn as sns
 
 def plot_sim_spikes2(sim, Spikes, df_AL_activity, subsampling=15, msize=3):    
     
@@ -193,6 +194,10 @@ def plot_AL_psths(orn_psths, pn_psths, eln_psths, iln_psths, sim, topk=6):
     return fig    
 
 
+def plot_psths(sim, Spikes):
+    orn_psths, pn_psths, eln_psths, iln_psths = get_AL_psths(sim, Spikes)
+    plot_AL_psths(orn_psths, pn_psths, eln_psths, iln_psths, sim, 6)
+    plt.tight_layout()
 
 def plot_neur_I_contribs(neur_i, d_neur_inputs, sim, I, Iin, V, Spikes):
     neur_inputs = d_neur_inputs[neur_i]['neur_inputs']
@@ -237,3 +242,42 @@ def plot_neur_I_contribs(neur_i, d_neur_inputs, sim, I, Iin, V, Spikes):
     plt.xlabel('time (s)'); plt.ylabel('V (mV)')
         
     return ax_odor, ax1, ax2 
+
+
+
+def plot_synapse_scale_hmap(fig_scale_hmap, sim):
+    neur_types = ['ORN', 'iLN', 'eLN', 'PN']
+    neur_type_letters = ['o', 'i', 'e', 'p']
+    
+    original_AL_block_vals = sim.al_block_df.values
+    sim_connect_vals = sim.connect
+    
+    divvy = np.abs(sim_connect_vals) / original_AL_block_vals
+    otoovec = divvy[sim.ORNpos, :][:, sim.ORNpos].flatten(); otoivec = divvy[sim.ORNpos, :][:, sim.iLNpos].flatten(); otoevec = divvy[sim.ORNpos, :][:, sim.eLNpos].flatten(); otopvec = divvy[sim.ORNpos, :][:, sim.PNpos].flatten()
+    itoovec = divvy[sim.iLNpos, :][:, sim.ORNpos].flatten(); itoivec = divvy[sim.iLNpos, :][:, sim.iLNpos].flatten(); itoevec = divvy[sim.iLNpos, :][:, sim.eLNpos].flatten(); itopvec = divvy[sim.iLNpos, :][:, sim.PNpos].flatten()
+    etoovec = divvy[sim.eLNpos, :][:, sim.ORNpos].flatten(); etoivec = divvy[sim.eLNpos, :][:, sim.iLNpos].flatten(); etoevec = divvy[sim.eLNpos, :][:, sim.eLNpos].flatten(); etopvec = divvy[sim.eLNpos, :][:, sim.PNpos].flatten()
+    ptoovec = divvy[sim.PNpos, :][:, sim.ORNpos].flatten(); ptoivec = divvy[sim.PNpos, :][:, sim.iLNpos].flatten(); ptoevec = divvy[sim.PNpos, :][:, sim.eLNpos].flatten(); ptopvec = divvy[sim.PNpos, :][:, sim.PNpos].flatten()
+    vecs = [otoovec, otoivec, otoevec, otopvec,
+            itoovec, itoivec, itoevec, itopvec,
+            etoovec, etoivec, etoevec, etopvec,
+            ptoovec, ptoivec, ptoevec, ptopvec ]
+    vecmults = [np.unique(x[~np.isnan(x)]) for x in vecs]
+    vecscales = np.array([np.abs(x[0]) for x in vecmults]).reshape(4,4)
+    
+    ddf = pd.DataFrame(vecscales, 
+                       index=neur_type_letters, 
+                       columns=neur_type_letters)
+        
+    ddf.columns = neur_types; ddf.index = neur_types
+    ddf.index.name = 'from'; ddf.columns.name = 'to'
+
+    plt.axis('equal')
+    plt.title('multipliers on Hemibrain synapse classes\n(blank = no change)')
+    mask = np.zeros_like(ddf)
+    mask[ddf == 1] = True
+    sns.heatmap(ddf, cmap='bwr', center=1, linewidths=1, linecolor='k',
+                fmt='.3f', annot=True, cbar=False, mask=mask)
+    plt.yticks(rotation=0)
+    #plt.show()
+    
+
