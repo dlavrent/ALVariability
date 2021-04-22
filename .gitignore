@@ -114,3 +114,4 @@ dmypy.json
 .pyre/
 datasets/DoOR/.Rhistory
 trash/
+save_sims_*
