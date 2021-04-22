@@ -109,3 +109,6 @@ def plot_scaled_hmap(fig, conmat, neur_sets, neur_set_names, cmap='jet'):
     for i in range(n_types):
         axs[i][0].set_ylabel(neur_full_names[i])
         axs[n_types-1][i].set_xlabel(neur_full_names[i])
+        
+        
+
