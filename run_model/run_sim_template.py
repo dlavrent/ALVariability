@@ -2,8 +2,6 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import pickle
 import time
 
@@ -19,9 +17,6 @@ from utils.model_params import params as default_params
 from scipy.sparse import csr_matrix
 from utils.plot_model_outputs import process_jdir
 
-
-showplots=False
-saveplots=True
 
 saveto_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -100,51 +95,7 @@ Iin[sim.LNpos, :] = PARAMS['ln_add_current']
 sim.set_eLNs(PARAMS['elnpos'])
 # set scalars on class to class strengths
 connect = set_connect_from_scale_dic(PARAMS['custom_scale_dic'], sim)
-sim.set_connect(connect.values)
-
-
-# plot results
-# image saving settings
-DPI = 300
-plot_dir = os.path.join(saveto_dir, 'model_plots')
-if not os.path.exists(plot_dir):
-    os.makedirs(plot_dir)
-fname_con = os.path.join(plot_dir, 'sim_con.png')
-fname_scaled_con = os.path.join(plot_dir, 'sim_scaled_con.png')
-fname_scaled_con_pdf = os.path.join(plot_dir, 'sim_scaled_con.pdf')
-fname_spikes = os.path.join(plot_dir, 'spikes.png')
-fname_frs = os.path.join(plot_dir, 'firing_rates.png')
-fname_pn_orn_fr_hists = os.path.join(plot_dir, 'pn_orn_fr_hists.png')
-fname_psths = os.path.join(plot_dir, 'sim_PSTHs.png')
-
-# plot connectivity
-fb = sim.connect.copy(); fb[fb > 0] = 1; fb[fb < 0] = -1
-plt.figure(figsize=(18,18))
-sns.heatmap(fb, cmap='bwr', center=0, vmax=1.3, vmin=-1.3, cbar=True, 
-            cbar_kws = {'label': 'sign of connection'})
-if saveplots:
-    plt.savefig(fname_con, bbox_inches='tight', dpi=DPI)
-if showplots:
-    plt.show()
-    
-from utils.plot_utils import plot_scaled_hmap
-# plot fancier connectivity
-fig = plt.figure(figsize=(16,16))
-final_orn_order = df_neur_ids[df_neur_ids.altype == 'ORN'].bodyId.values
-final_ln_order = df_neur_ids[df_neur_ids.altype == 'LN'].bodyId.values
-final_upn_order = df_neur_ids[df_neur_ids.altype == 'uPN'].bodyId.values
-final_mpn_order = df_neur_ids[df_neur_ids.altype == 'mPN'].bodyId.values
-alblock = pd.DataFrame(np.abs(sim.connect), index=sim.df_neur_ids.bodyId, columns=sim.df_neur_ids.bodyId)
-plot_scaled_hmap(fig=fig,
-                 conmat = alblock,
-                 neur_sets = [final_orn_order, final_ln_order, final_upn_order, final_mpn_order],
-                 neur_set_names = ['ORN', 'LN', 'uPN', 'mPN'],
-                 cmap='magma')
-if saveplots:
-    plt.savefig(fname_scaled_con, bbox_inches='tight', dpi=DPI)
-if showplots:
-    plt.show()
-    
+sim.set_connect(connect.values)   
     
 # ### Run simulation
 print('running LIF...')
@@ -153,7 +104,6 @@ print('done running LIF')
 
 # count spikes
 Spikes = spikes_from_APMask(APMask)
-
 
 tf = time.time()
 print('elapsed', tf-t0)
@@ -178,7 +128,7 @@ df_AL_activity, df_AL_activity_long = get_AL_activity_dfs(sim, Spikes)
 df_AL_activity.to_csv(os.path.join(saveto_dir, 'df_AL_activity.csv'))
 
 
-# save BETTER PDF
+# save model output PDF
 run_model_dir = os.path.join(file_path.split('run_model')[0], 'run_model')
 all_pdf_fpath = os.path.join(run_model_dir, 'all_pdfs_sensitivity_sweep')
 if not os.path.exists(all_pdf_fpath):
