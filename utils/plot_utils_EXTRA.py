@@ -778,9 +778,10 @@ def plot_electrophys_hmap(jdir_params_seed):
 
 
     
-def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs):
+def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
+                    saveplot=False, savetodir='./', showplot=False):
     
-    bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/bhandawat_fig6_quantification.csv')
+    bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/fig6_pn_orn_firing_rates/fig6_pn_orn_firing_rate_histograms.csv')
     df_bhand = pd.read_csv(bhand_filepath)
     df_bhand_pn = df_bhand[df_bhand.cell_type == 'PN']
     df_bhand_orn = df_bhand[df_bhand.cell_type == 'ORN']
@@ -823,9 +824,14 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs):
     plt.ylabel('fraction of PNs*odors')
     plt.subplots_adjust(hspace=0.1)
     plt.tight_layout()
+    if saveplot:
+        plt.savefig(os.path.join(savetodir, f'{savetag}.png'))
+    if showplot:
+        plt.show()
 
     
-def plot_fig_orn_pn_stats(fig_orn_pn, orn_table, pn_table, cmap='bwr'):
+def plot_fig_orn_pn_stats(fig_orn_pn, orn_table, pn_table, cmap='bwr', savetag='',
+                    saveplot=False, savetodir='./', showplot=False, doplot=True):
 
     odor_names = orn_table.columns
     
@@ -838,53 +844,59 @@ def plot_fig_orn_pn_stats(fig_orn_pn, orn_table, pn_table, cmap='bwr'):
     maxz = max(np.max(odv), np.max(pdv)); minz = min(np.min(odv), np.min(pdv))
     orn_dists = pdist(odv, metric='euclidean'); pn_dists = pdist(pdv, metric='euclidean')
     
-    mindist = min(min(orn_dists), min(pn_dists)); maxdist = max(max(orn_dists), max(pn_dists))
+    if doplot:
+        mindist = min(min(orn_dists), min(pn_dists)); maxdist = max(max(orn_dists), max(pn_dists))
+        
     
-
-    ##### TOP HALF: HEATMAPS
-    # ORN heatmap
-    ax1 = plt.subplot(gs[0, :]); ax1.set_title('ORNs')
-    sns.heatmap(orn_table.T, ax=ax1, cbar_ax=cbar_ax,
-                fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
-
-    # filler
-    axf = plt.subplot(gs[1, :]); axf.set_visible(False)
-
-    # PN heatmap
-    ax3 = plt.subplot(gs[2, :]); ax3.set_title('PNs')
-    sns.heatmap(pn_table.T, ax=ax3, cbar_ax=cbar_ax,
-                fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
-
-    # filler
-    axf = plt.subplot(gs[3, :]); axf.set_visible(False)
-
-    ##### BOTTOM HALF: COMPARISONS
-    # plot firing rates PN vs ORN
-    ax5 = plt.subplot(gs[4,0])
-    for od in odor_names:
-        plt.plot(orn_table[od], pn_table[od], 'o', label=od)
-    plt.xlabel('ORN firing rate'); plt.ylabel('PN firing rate')
-    plt.title('Mean glom PN vs. ORN frs')
-    plt.legend(bbox_to_anchor=(1.05, -0.2), title=r'odors (mean $\pm$ sd)')
-
-    # plot euclidean distances
-    ax6 = plt.subplot(gs[4,1])
-    plt.title('Distance b/w odor pairs in PN/ORN space')    
-    b = np.linspace(mindist, maxdist, 12)  
-    plt.hist(orn_dists, label='ORN', alpha=0.6, bins=b, color='xkcd:light blue')
-    plt.hist(pn_dists, label='PN', alpha=0.6, bins=b, color='xkcd:navy')
-    plt.xlabel('pairwise euclidean distance'); plt.ylabel('# odor pairs')
-    plt.legend()
-
-    # plot as scatter plot
-    ax7 = plt.subplot(gs[4,2])
-    plt.scatter(orn_dists, pn_dists, color='k')
-    plt.plot([mindist, maxdist], [mindist, maxdist], color='0.5', ls='--')
-    plt.xlabel('ORN pairwise distance'); plt.ylabel('PN pairwise distance')
-
-    # final adjustments
-    plt.subplots_adjust(hspace=0.15, wspace=0.25)
+        ##### TOP HALF: HEATMAPS
+        # ORN heatmap
+        ax1 = plt.subplot(gs[0, :]); ax1.set_title('ORNs')
+        sns.heatmap(orn_table.T, ax=ax1, cbar_ax=cbar_ax,
+                    fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
     
+        # filler
+        axf = plt.subplot(gs[1, :]); axf.set_visible(False)
+    
+        # PN heatmap
+        ax3 = plt.subplot(gs[2, :]); ax3.set_title('PNs')
+        sns.heatmap(pn_table.T, ax=ax3, cbar_ax=cbar_ax,
+                    fmt='.0f', cmap=cmap, center=0, vmin=minz, vmax=maxz)
+    
+        # filler
+        axf = plt.subplot(gs[3, :]); axf.set_visible(False)
+    
+        ##### BOTTOM HALF: COMPARISONS
+        # plot firing rates PN vs ORN
+        ax5 = plt.subplot(gs[4,0])
+        for od in odor_names:
+            plt.plot(orn_table[od], pn_table[od], 'o', label=od)
+        plt.xlabel('ORN firing rate'); plt.ylabel('PN firing rate')
+        plt.title('Mean glom PN vs. ORN frs')
+        plt.legend(bbox_to_anchor=(1.05, -0.2), title=r'odors (mean $\pm$ sd)')
+    
+        # plot euclidean distances
+        ax6 = plt.subplot(gs[4,1])
+        plt.title('Distance b/w odor pairs in PN/ORN space')    
+        b = np.linspace(mindist, maxdist, 12)  
+        plt.hist(orn_dists, label='ORN', alpha=0.6, bins=b, color='xkcd:light blue')
+        plt.hist(pn_dists, label='PN', alpha=0.6, bins=b, color='xkcd:navy')
+        plt.xlabel('pairwise euclidean distance'); plt.ylabel('# odor pairs')
+        plt.legend()
+    
+        # plot as scatter plot
+        ax7 = plt.subplot(gs[4,2])
+        plt.scatter(orn_dists, pn_dists, color='k')
+        plt.plot([mindist, maxdist], [mindist, maxdist], color='0.5', ls='--')
+        plt.xlabel('ORN pairwise distance'); plt.ylabel('PN pairwise distance')
+    
+        # final adjustments
+        plt.subplots_adjust(hspace=0.15, wspace=0.25)
+        
+        if saveplot:
+            plt.savefig(os.path.join(savetodir, f'{savetag}.png'))
+        if showplot:
+            plt.show()
+        
     return orn_dists, pn_dists
     
     
