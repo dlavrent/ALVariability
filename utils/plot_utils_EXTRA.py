@@ -781,10 +781,10 @@ def plot_electrophys_hmap(jdir_params_seed):
 def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
                     saveplot=False, savetodir='./', showplot=False):
     
-    bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/fig6_pn_orn_firing_rates/fig6_pn_orn_firing_rate_histograms.csv')
-    df_bhand = pd.read_csv(bhand_filepath)
-    df_bhand_pn = df_bhand[df_bhand.cell_type == 'PN']
-    df_bhand_orn = df_bhand[df_bhand.cell_type == 'ORN']
+    bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv')
+    df_bhand_frs = pd.read_csv(bhand_filepath)
+    df_bhand_orn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'ORN'].pivot('glomerulus', 'odor', 'firing_rate')
+    df_bhand_pn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'PN'].pivot('glomerulus', 'odor', 'firing_rate')    
     
     #plt.figure(figsize=(12,8))
     gs = GridSpec(2,2, height_ratios=[1.8,1])
@@ -799,12 +799,13 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
 
     ax2 = plt.subplot(gs[1,0])
     plt.title('ORN FR during odors - FR off odors')
-    cnts, left_pts = np.histogram(df_orn_frs.values.flatten(), bins=b)
-    plt.bar(left_pts[:-1], cnts/sum(cnts),
-            align='edge', width=20, color='k', alpha=.6, 
+    arr = df_orn_frs.values.flatten()
+    weights = np.ones_like(arr) / len(arr)
+    plt.hist(arr, weights=weights, bins=b, color='k', alpha=.6, 
             label='model (full odor stimulus)')
-    plt.bar(df_bhand_orn['firing_rate'].values, df_bhand_orn['fraction'].values, 
-            align='edge', width=20, color='gold', alpha=.6, 
+    arr = df_bhand_orn_glom_by_odor.values.flatten()
+    weights = np.ones_like(arr) / len(arr)
+    plt.hist(arr, weights=weights, bins=b, color='gold', alpha=.6, 
             label='Bhandawat 2007\n({})'.format(keyword))
     ax2.legend()
     plt.xlabel('ORN firing rate (Hz) relative to baseline')
@@ -812,12 +813,13 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
 
     ax3 = plt.subplot(gs[1,1], sharey=ax2)
     plt.title('uPN FR during odors - FR off odors')
-    cnts, left_pts = np.histogram(df_upn_frs.values.flatten(), bins=b)
-    plt.bar(left_pts[:-1], cnts/sum(cnts), 
-            align='edge', width=20, color='k', alpha=.6, 
+    arr = df_upn_frs.values.flatten()
+    weights = np.ones_like(arr) / len(arr)
+    plt.hist(arr, weights=weights, bins=b, color='k', alpha=.6, 
             label='model (full odor stimulus)')
-    plt.bar(df_bhand_pn['firing_rate'].values, df_bhand_pn['fraction'].values, 
-            align='edge', width=20, color='gold', alpha=.6, 
+    arr = df_bhand_pn_glom_by_odor.values.flatten()
+    weights = np.ones_like(arr) / len(arr)
+    plt.hist(arr, weights=weights, color='gold', alpha=.6, 
             label='Bhandawat 2007\n({})'.format(keyword))
     ax3.legend()
     plt.xlabel('uPN firing rate (Hz) relative to baseline')
