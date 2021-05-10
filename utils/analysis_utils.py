@@ -24,28 +24,15 @@ df_neur_ids = pd.read_csv(os.path.join(project_dir, 'connectomics/hemibrain_v1_2
 al_block = pd.read_csv(os.path.join(project_dir, 'connectomics/hemibrain_v1_2/AL_block.csv'), index_col=0)
 imput_table = pd.read_csv(os.path.join(project_dir, 'odor_imputation/df_odor_door_all_odors_imput_ALS.csv'), index_col=0)
 
-def make_PCA_projections(df_orn_glom_onoff_bhand, df_upn_glom_onoff_bhand):
-    
-    # get odor x glomerulus tables for ORNs, uPNs
-    df_sim_orn = df_orn_glom_onoff_bhand.T
-    df_sim_upn = df_upn_glom_onoff_bhand.T
-    # center them
-    df_sim_orn_c = df_sim_orn - df_sim_orn.mean(0)
-    df_sim_upn_c = df_sim_upn - df_sim_upn.mean(0)
-    # perform PCA
-    ornPCA = PCA()
-    ornPCA.fit(df_sim_orn_c)
-    orn_projections = ornPCA.fit_transform(df_sim_orn_c)[:, :2]
-    upnPCA = PCA()
-    upnPCA.fit(df_sim_upn_c)
-    upn_projections = upnPCA.fit_transform(df_sim_upn_c)[:, :2]
-    
-    dfORNpca = orn_projections[:, :2]
-    dfPNpca = upn_projections[:, :2]
-    
-    return dfORNpca, dfPNpca, ornPCA, upnPCA
 
-    
+def do_PCA(odor_by_glom_table):
+    # column-center the data
+    odor_by_glom_table_centered = odor_by_glom_table - odor_by_glom_table.mean(0)
+    pca = PCA()
+    pca.fit(odor_by_glom_table_centered)
+    pca_projections = pca.transform(odor_by_glom_table_centered)[:, :2]
+    return pca_projections, pca
+   
 from utils.data_utils import make_df_AL_activity_long, make_orn_upn_frs, make_glomerular_odor_responses
 from utils.plot_utils_EXTRA import plot_ornpn_hist
 from utils.plot_utils import set_font_sizes
@@ -73,7 +60,8 @@ odor_names = np.array(['benzaldehyde',
 
 
 
-bhand_gloms = ['DL1', 'DM1', 'DM2', 'DM3', 'DM4', 'VA2']#, 'VM2']
+bhand_gloms = ['DL1', 'DM1', 'DM2', 'DM3', 'DM4', 'VA2', 'VM2']
+model_bhand_gloms = ['DL1', 'DM1', 'DM2', 'DM3', 'DM4', 'VA2']
 
 df_neur_ids_bhand  = df_neur_ids.copy()[
         ((df_neur_ids.altype == 'ORN') & (df_neur_ids.glom.isin(bhand_gloms))) | 
@@ -82,22 +70,23 @@ df_neur_ids_bhand  = df_neur_ids.copy()[
          (df_neur_ids.altype == 'mPN')
      ]
 
-plot_dir = 'plot_here'
-if not os.path.exists(plot_dir):
-    os.makedirs(plot_dir)
+#plot_dir = 'plot_here'
+#if not os.path.exists(plot_dir):
+#    os.makedirs(plot_dir)
     
     
-df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/run_model/save_sims_sensitivity_sweep/2021_4_22-5_29_59__0v12_all0.1_ecol0.45_icol0.8_pcol6.0_sweep_Bhandawat_odors_5_29_59/df_AL_activity.csv', index_col=0)    
+#df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/run_model/save_sims_sensitivity_sweep/2021_4_22-5_29_59__0v12_all0.1_ecol0.45_icol0.8_pcol6.0_sweep_Bhandawat_odors_5_29_59/df_AL_activity.csv', index_col=0)    
 
-df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/candidates/df_AL_activity_a0.1_e0.25_i0.2_p6.0.csv', index_col=0)    
-
-
-df_fig6_glomerular_pn_vs_orn = pd.read_csv(os.path.join(project_dir, 'datasets/Bhandawat2007/fig6_glomerular_pn_vs_orn/fig6_pn_vs_orn_fr.csv'))
-df_bhand_ORN_PCA = pd.read_csv(os.path.join(project_dir, 'datasets/Bhandawat2007/fig7_pca/fig7_orn_PCA_points.csv'), header=None)
-df_bhand_PN_PCA = pd.read_csv(os.path.join(project_dir, 'datasets/Bhandawat2007/fig7_pca/fig7_pn_PCA_points.csv'), header=None)
+#df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/candidates/df_AL_activity_a0.1_e0.25_i0.2_p6.0.csv', index_col=0)    
 
 
+df_bhand_frs = pd.read_csv('../datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv')
+df_bhand_orn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'ORN'].pivot('glomerulus', 'odor', 'firing_rate').loc[bhand_gloms, odor_names]
+df_bhand_pn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'PN'].pivot('glomerulus', 'odor', 'firing_rate').loc[bhand_gloms, odor_names]
 
+bhand_ORN_projections, bhand_ORN_pca = do_PCA(df_bhand_orn_glom_by_odor.T)
+bhand_PN_projections, bhand_PN_pca = do_PCA(df_bhand_pn_glom_by_odor.T)
+    
 
 def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table):
 
@@ -105,8 +94,8 @@ def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table):
     for g in bhand_gloms:
         axs[0].plot(orn_table.loc[g], pn_table.loc[g], 'o', label=g)
 
-        sub_df = df_fig6_glomerular_pn_vs_orn[df_fig6_glomerular_pn_vs_orn.glomerulus == g]
-        axs[1].plot(sub_df['ORN'], sub_df['PN'], 'o', label=g)
+        axs[1].plot(df_bhand_orn_glom_by_odor.loc[g], 
+                    df_bhand_pn_glom_by_odor.loc[g], 'o', label=g)
 
     axs[0].set_title('model')
     axs[1].set_title('Bhandawat (2007)')
@@ -119,13 +108,11 @@ def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table):
 def plot_PCA_comparison_Bhandawat(fig, axs, dfORNpca, dfPNpca):
     
 
-    for i in range(len(dfORNpca)):
-        axs[1, 0].scatter(dfORNpca[i, 1], dfORNpca[i, 0], label=odor_names[i])
-        axs[0, 0].scatter(df_bhand_ORN_PCA.iloc[i, 0], df_bhand_ORN_PCA.iloc[i, 1], label=odor_names[i])
-
-    for i in range(len(dfPNpca)):
-        axs[1, 1].scatter(dfPNpca[i, 1], dfPNpca[i, 0], label=odor_names[i])
-        axs[0, 1].scatter(df_bhand_PN_PCA.iloc[i, 0], df_bhand_PN_PCA.iloc[i, 1], label=odor_names[i])
+    for i in range(len(odor_names)):
+        axs[0, 0].scatter(bhand_ORN_projections[i, 1], -bhand_ORN_projections[i, 0], label=odor_names[i])
+        axs[0, 1].scatter(bhand_PN_projections[i, 1], -bhand_PN_projections[i, 0], label=odor_names[i])
+        axs[1, 0].scatter(dfORNpca[i, 1], -dfORNpca[i, 0], label=odor_names[i])
+        axs[1, 1].scatter(dfPNpca[i, 1], -dfPNpca[i, 0], label=odor_names[i])
 
 
     axs[0, 0].set_title('ORNs (Bhandawat 2007)')
@@ -145,11 +132,9 @@ def plot_PCA_comparison_Bhandawat(fig, axs, dfORNpca, dfPNpca):
     
 def plot_PCA_dist_comparison_Bhandawat(fig, axs, model_pca_orndists, model_pca_pndists):
     
-    bhandawat_pca_orndists = pdist(df_bhand_ORN_PCA.iloc[:, :2], metric='euclidean')
-    bhandawat_pca_pndists = pdist(df_bhand_PN_PCA.iloc[:, :2], metric='euclidean')
-    
-    
-    
+    bhandawat_pca_orndists = pdist(bhand_ORN_projections, metric='euclidean')
+    bhandawat_pca_pndists = pdist(bhand_PN_projections, metric='euclidean')
+        
     arrs = [model_pca_orndists, model_pca_pndists, bhandawat_pca_orndists, bhandawat_pca_pndists]
     mindist = min([min(r) for r in arrs])
     maxdist = max([max(r) for r in arrs])
@@ -174,7 +159,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 
-def make_comparison_plots(df_AL_activity, saveto_dir):
+def make_comparison_plots(df_AL_activity, plot_dir):
       
     ### BHANDAWAT VERSION
     df_AL_activity_bhand  = df_AL_activity.copy()[
@@ -212,21 +197,26 @@ def make_comparison_plots(df_AL_activity, saveto_dir):
     
     df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF = \
         make_glomerular_odor_responses(df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, df_AL_activity_bhand)
+        
+    df_orn_glom_frs_bhand_ONOFF = df_orn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
+    df_upn_glom_frs_bhand_ONOFF = df_upn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
     
-    dfORNpca, dfPNpca, ornPCA, pnPCA = make_PCA_projections(df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF)
+    model_ORN_projections, model_ORN_pca = do_PCA(df_orn_glom_frs_bhand_ONOFF.T)
+    model_PN_projections, model_PN_pca = do_PCA(df_upn_glom_frs_bhand_ONOFF.T)
+
     
-    print(ornPCA.explained_variance_ratio_)
-    print(pnPCA.explained_variance_ratio_)
+    print(model_ORN_pca.explained_variance_ratio_)
+    print(model_PN_pca.explained_variance_ratio_)
     
     
     fig, axs = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(8, 8))
-    plot_PCA_comparison_Bhandawat(fig, axs, dfORNpca, dfPNpca)
+    plot_PCA_comparison_Bhandawat(fig, axs, model_ORN_projections, model_PN_projections)
     plt.savefig(os.path.join(plot_dir, 'compare_PCA_bhand.png'), bbox_inches='tight')
     plt.close()
     
     
-    model_pca_orndists = pdist(dfORNpca, metric='euclidean')
-    model_pca_pndists = pdist(dfPNpca, metric='euclidean')
+    model_pca_orndists = pdist(model_ORN_projections, metric='euclidean')
+    model_pca_pndists = pdist(model_PN_projections, metric='euclidean')
     fig, axs = plt.subplots(2, 1, sharex=True, figsize=(6, 8))
     plot_PCA_dist_comparison_Bhandawat(fig, axs, model_pca_orndists, model_pca_pndists)
     plt.savefig(os.path.join(plot_dir, 'compare_PCA_dists_bhand.png'), bbox_inches='tight')
@@ -279,3 +269,5 @@ def make_comparison_pdf(plot_dir, msg=''):
     out_pdf_fname = os.path.join(plot_dir, pdf_basename)
     with open(out_pdf_fname, "wb") as outputf:
         output.write(outputf)
+        
+    return out_pdf_fname
