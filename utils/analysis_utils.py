@@ -64,9 +64,9 @@ bhand_gloms = ['DL1', 'DM1', 'DM2', 'DM3', 'DM4', 'VA2', 'VM2']
 model_bhand_gloms = ['DL1', 'DM1', 'DM2', 'DM3', 'DM4', 'VA2']
 
 df_neur_ids_bhand  = df_neur_ids.copy()[
-        ((df_neur_ids.altype == 'ORN') & (df_neur_ids.glom.isin(bhand_gloms))) | 
+        ((df_neur_ids.altype == 'ORN') & (df_neur_ids.glom.isin(model_bhand_gloms))) | 
          (df_neur_ids.altype == 'LN') | 
-         ((df_neur_ids.altype == 'uPN') & (df_neur_ids.glom.isin(bhand_gloms))) |
+         ((df_neur_ids.altype == 'uPN') & (df_neur_ids.glom.isin(model_bhand_gloms))) |
          (df_neur_ids.altype == 'mPN')
      ]
 
@@ -77,8 +77,7 @@ df_neur_ids_bhand  = df_neur_ids.copy()[
     
 #df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/run_model/save_sims_sensitivity_sweep/2021_4_22-5_29_59__0v12_all0.1_ecol0.45_icol0.8_pcol6.0_sweep_Bhandawat_odors_5_29_59/df_AL_activity.csv', index_col=0)    
 
-#df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/candidates/df_AL_activity_a0.1_e0.25_i0.2_p6.0.csv', index_col=0)    
-
+#
 
 df_bhand_frs = pd.read_csv('../datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv')
 df_bhand_orn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'ORN'].pivot('glomerulus', 'odor', 'firing_rate').loc[bhand_gloms, odor_names]
@@ -163,9 +162,9 @@ def make_comparison_plots(df_AL_activity, plot_dir):
       
     ### BHANDAWAT VERSION
     df_AL_activity_bhand  = df_AL_activity.copy()[
-        ((df_AL_activity.neur_type == 'ORN') & (df_AL_activity.glom.isin(bhand_gloms))) | 
+        ((df_AL_activity.neur_type == 'ORN') & (df_AL_activity.glom.isin(model_bhand_gloms))) | 
         (df_AL_activity.neur_type.isin(['iLN', 'eLN'])) | 
-        ((df_AL_activity.neur_type == 'uPN') & (df_AL_activity.glom.isin(bhand_gloms))) |
+        ((df_AL_activity.neur_type == 'uPN') & (df_AL_activity.glom.isin(model_bhand_gloms))) |
         (df_AL_activity.neur_type == 'mPN')
     ]
         
@@ -178,12 +177,31 @@ def make_comparison_plots(df_AL_activity, plot_dir):
                                                   sub_pre=False, olf_only=True)
     
     
+    
+    df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF = \
+        make_glomerular_odor_responses(df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, df_AL_activity_bhand)
+        
+        
     # plot ORN, PN on-off firing rate histograms
-    fig_ornpn_hist = plt.figure(figsize=(12,10))
+    plt.figure(figsize=(12,10))
     plot_ornpn_hist(df_AL_activity_long_bhand, 
                     df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, savetag='hist_onoff_bhand', 
-                    saveplot=1, savetodir=plot_dir, showplot=1)
+                    saveplot=1, savetodir=plot_dir, showplot=0)
     plt.close()
+    
+    plt.figure(figsize=(12,10))
+    plot_ornpn_hist(df_AL_activity_long_bhand, 
+                    df_orn_frs_bhand_ON, df_upn_frs_bhand_ON, savetag='hist_on_bhand', 
+                    saveplot=1, savetodir=plot_dir, showplot=0, sub_pre=False)
+    plt.close()
+
+    plt.figure(figsize=(12,10))
+    plot_ornpn_hist(df_AL_activity_long_bhand, 
+                    df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF, savetag='hist_onoff_bhand_grouped_glomerulus', 
+                    saveplot=1, savetodir=plot_dir, showplot=0)
+    plt.close()
+
+    
     
     # plot PN vs ORN firing rate relationship
     df_orn_glom_frs_bhand_ON, df_upn_glom_frs_bhand_ON = \
@@ -193,10 +211,9 @@ def make_comparison_plots(df_AL_activity, plot_dir):
     fig, axs = plt.subplots(1, 2, figsize=(10,5), sharex=True, sharey=True)
     plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, df_orn_glom_frs_bhand_ON, df_upn_glom_frs_bhand_ON)
     plt.savefig(os.path.join(plot_dir, 'compare_PN_vs_ORN_bhand.png'), bbox_inches='tight')
-    plt.show()
+    plt.close()
     
-    df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF = \
-        make_glomerular_odor_responses(df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, df_AL_activity_bhand)
+    
         
     df_orn_glom_frs_bhand_ONOFF = df_orn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
     df_upn_glom_frs_bhand_ONOFF = df_upn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
@@ -204,10 +221,6 @@ def make_comparison_plots(df_AL_activity, plot_dir):
     model_ORN_projections, model_ORN_pca = do_PCA(df_orn_glom_frs_bhand_ONOFF.T)
     model_PN_projections, model_PN_pca = do_PCA(df_upn_glom_frs_bhand_ONOFF.T)
 
-    
-    print(model_ORN_pca.explained_variance_ratio_)
-    print(model_PN_pca.explained_variance_ratio_)
-    
     
     fig, axs = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(8, 8))
     plot_PCA_comparison_Bhandawat(fig, axs, model_ORN_projections, model_PN_projections)
@@ -271,3 +284,7 @@ def make_comparison_pdf(plot_dir, msg=''):
         output.write(outputf)
         
     return out_pdf_fname
+
+
+#df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/candidates/df_AL_activity_a0.1_e0.25_i0.2_p6.0.csv', index_col=0)    
+#make_comparison_plots(df_AL_activity, 'tr5')
