@@ -100,6 +100,15 @@ def process_jdir(jdir, pdf_folder_name, commonfolder='', savepdfstoo=True):
     if savepdfstoo:
         plt.savefig(fname_frs_peak.replace('.png', '.pdf'), bbox_inches='tight')
     plt.close()
+
+    # plot firing rates
+    fname_frs_peak_glom = os.path.join(savepicsdir, 'sim_AL_frs_peak_glom_mean.png')
+    fig_frs_peak_glom = plt.figure(figsize=(12,12))
+    plot_ornpn_hist(df_AL_activity_long, df_orn_glom_onoff, df_upn_glom_onoff)
+    plt.savefig(fname_frs_peak_glom, bbox_inches='tight', dpi=DPI)
+    if savepdfstoo:
+        plt.savefig(fname_frs_peak_glom.replace('.png', '.pdf'), bbox_inches='tight')
+    plt.close()
     
     # plot pn vs orn firing rates an
     print('plotting pn vs orn...')
@@ -435,7 +444,7 @@ def process_jdir(jdir, pdf_folder_name, commonfolder='', savepdfstoo=True):
     can.drawImage(fname_spikes, 
                   0, 6*inch,
                   width=5*inch, height=5*inch, preserveAspectRatio=True)
-    can.drawImage(fname_frs_peak, 
+    can.drawImage(fname_frs_peak_glom, 
                   4.5*inch, 6*inch, 
                   width=4*inch, height=3.5*inch, preserveAspectRatio=True)
     can.drawImage(fname_orn_pn,
