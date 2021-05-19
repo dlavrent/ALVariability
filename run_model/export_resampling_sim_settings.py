@@ -22,16 +22,21 @@ from utils.model_params import params as hemi_params
 import argparse
 
 parser = argparse.ArgumentParser()
-
 parser.add_argument('--mA', type=float, default=0.1, help='multiplier on all columns')
 parser.add_argument('--mO', type=float, default=1, help='multiplier on ORN column')
 parser.add_argument('--mE', type=float, default=0.4, help='multiplier on eLN column')
-parser.add_argument('--mI', type=float, default=0.75, help='multiplier on iLN column')
-parser.add_argument('--mP', type=float, default=6, help='multiplier on PN column')
+parser.add_argument('--mI', type=float, default=0.2, help='multiplier on iLN column')
+parser.add_argument('--mP', type=float, default=4, help='multiplier on PN column')
+parser.add_argument('--rO', type=int, default=0, help='binary, resample ORNs?')
+parser.add_argument('--rL', type=int, default=0, help='binary, resample LNs?')
+parser.add_argument('--rP', type=int, default=0, help='binary, resample PNs?')
+parser.add_argument('--ruP', type=int, default=1, help='binary, resample uPNs? only active if --rP on')
+parser.add_argument('--rmP', type=int, default=1, help='binary, resample mPNs? only active if --rP on')
 
 args = parser.parse_args()
 
 MULT_ALL = args.mA; MULT_ORN = args.mO; MULT_ELN = args.mE; MULT_ILN = args.mI; MULT_PN = args.mP
+RESAMPLE_ORNs = args.rO; RESAMPLE_LNs = args.rL; RESAMPLE_PNs = args.rP; RESAMPLE_uPNs = args.ruP; RESAMPLE_mPNs = args.rmP
 
 print('setting settings...')
 
@@ -50,25 +55,19 @@ time_tag = day_tag + '-' + sec_tag
 #### SET PARAMETERS
     
 # odors, sequentially
-bhandawat_odors = np.array(['benzaldehyde', 
-                        'butyric acid',
-                        '2,3-butanedione',
-                        '1-butanol',
-                        'cyclohexanone',
-                        'Z3-hexenol', # originally 'cis-3-hexen-1-ol',
-                        'ethyl butyrate',
-                        'ethyl acetate',
+mac_odors = np.array(['3-octanol',
+                        '1-hexanol',
+                        'ethyl lactate',
+                        #'citronella',
+                        '2-heptanone',
+                        '1-pentanol',
+                        'ethanol',
                         'geranyl acetate',
-                        'isopentyl acetate', # originally 'isoamyl acetate',
-                        '4-methylphenol', # originally '4-methyl phenol',
-                        'methyl salicylate',
-                        '3-methylthio-1-propanol',
-                        'octanal',
-                        '2-octanone',
-                        'pentyl acetate', 
-                        'E2-hexenal', # originally 'trans-2-hexenal',
-                        'gamma-valerolactone'])
-odor_panel = bhandawat_odors
+                        'hexyl acetate',
+                        '4-methylcyclohexanol',
+                        'pentyl acetate',
+                        '1-butanol'])
+odor_panel = mac_odors
 
 # duration of odor stimulus (seconds)
 odor_dur = 0.4
@@ -96,7 +95,77 @@ topk = int(np.round(num_LNs / 2))
 nlns = len(LN_bodyIds)
 elnpos = np.random.choice(np.arange(topk), num_eLNs, replace=False) 
 print(elnpos)
-   
+
+#########
+######### RESAMPLING
+#########
+
+df_neur_ORNs = df_neur_ids.copy()[df_neur_ids.altype == 'ORN']
+df_neur_LNs = df_neur_ids.copy()[df_neur_ids.altype == 'LN']
+df_neur_PNs = df_neur_ids.copy()[df_neur_ids.altype.isin(['uPN', 'mPN'])]
+
+final_ORN_ids = df_neur_ORNs.bodyId.values
+final_LN_ids = df_neur_LNs.bodyId.values
+final_PN_ids = df_neur_PNs.bodyId.values
+
+if RESAMPLE_ORNs:
+    random_ORN_sample = []
+    orn_gloms = df_neur_ORNs.glom.unique() 
+    for g in orn_gloms:
+        glom_orn_bodyIds = df_neur_ORNs[df_neur_ORNs.glom == g].bodyId.values
+        random_glom_ORN_sample = np.random.choice(glom_orn_bodyIds, len(glom_orn_bodyIds), replace=True)
+        random_ORN_sample.append(random_glom_ORN_sample)
+    random_ORN_sample = np.concatenate(random_ORN_sample)
+    final_ORN_ids = random_ORN_sample
+
+if RESAMPLE_LNs:
+    random_LN_sample = np.random.choice(final_LN_ids, len(final_LN_ids), replace=True)
+    df_neur_LNs.glom = pd.to_numeric(df_neur_LNs.glom)
+    random_LN_sample_sorted_by_charId = (df_neur_LNs
+        .set_index('bodyId')
+        .loc[random_LN_sample]
+        .sort_values('glom', ascending=True)
+        ).index.values
+    final_LN_ids = random_LN_sample_sorted_by_charId
+
+if RESAMPLE_PNs:
+    upn_bodyIds = df_neur_PNs[df_neur_PNs.altype == 'uPN'].bodyId.values
+    final_uPN_sample = upn_bodyIds
+    if RESAMPLE_uPNs:
+        # resample within PN glomeruli to get random uPN sample
+        random_uPN_sample = []
+        pn_gloms = df_neur_PNs.glom.unique() 
+        for g in pn_gloms:
+            glom_pn_bodyIds = df_neur_PNs[df_neur_PNs.glom == g].bodyId.values
+            random_glom_PN_sample = np.random.choice(glom_pn_bodyIds, len(glom_pn_bodyIds), replace=True)
+            random_uPN_sample.append(random_glom_PN_sample)
+        final_uPN_sample = np.concatenate(random_uPN_sample)
+    
+    mpn_bodyIds = df_neur_PNs[df_neur_PNs.altype == 'mPN'].bodyId.values
+    final_mPN_sample = mpn_bodyIds
+    if RESAMPLE_mPNs:
+        # resample the multi-PNs
+        final_mPN_sample = np.random.choice(mpn_bodyIds, len(mpn_bodyIds), replace=True)
+    # concatenate
+    final_PN_ids = np.concatenate((final_uPN_sample, final_mPN_sample))
+
+# get final resampled df_char_ids
+final_bodyIds = np.concatenate((final_ORN_ids, final_LN_ids, final_PN_ids))
+df_neur_ids_resampled = df_neur_ids.set_index('bodyId').loc[final_bodyIds].reset_index()[df_neur_ids.columns]
+
+# and, reorder al_block
+al_block.columns = al_block.columns.astype(np.int64)
+al_block_resampled = al_block.loc[final_bodyIds, final_bodyIds]
+
+resamp_tag = '{}{}{}'.format('ORN_'*RESAMPLE_ORNs, 
+                            'LN_'*RESAMPLE_LNs, 
+                            '{}{}PN_'.format('u'*RESAMPLE_uPNs,
+                                             'm'*RESAMPLE_mPNs)*RESAMPLE_PNs)
+
+#########
+######### RESAMPLING
+#########
+
 # set ORN decay
 decay_tc = 0.11 # seconds
 decay_fadapt = 0.75 # a fraction
@@ -116,10 +185,11 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_sweep_Bhandawat_odors_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_{sec_tag}'
 run_explanation = '''
 v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
-using ALS imputed Bhandawat 2007 odors
+using ALS imputed MAC odors
+all x0.1, eLNs x0.4, iLNs x0.2, PNs x4
 1/6.4 of LNs are set as excitatory (Tsai et al, 2018), 
     drawn randomly from top 50\% of LNs when sorted by number of glomeruli innervated 
 ORN decay timescale 110 ms to 75% (Kao and Lo, 2020)
