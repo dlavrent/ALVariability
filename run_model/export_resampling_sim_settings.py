@@ -42,7 +42,7 @@ print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_sensitivity_sweep')
+                               'save_sims_resampling_ORNs_LNs_PNs')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
@@ -87,13 +87,22 @@ imput_table = pd.read_csv(os.path.join(project_dir, 'odor_imputation/df_odor_doo
 
 
 # set excitatory LN positions
-np.random.seed(1234)
-LN_bodyIds = df_neur_ids[df_neur_ids.altype == 'LN'].bodyId.values
-num_LNs = len(LN_bodyIds)
-num_eLNs = int(np.round(num_LNs / 6.4))
-topk = int(np.round(num_LNs / 2))
-nlns = len(LN_bodyIds)
-elnpos = np.random.choice(np.arange(topk), num_eLNs, replace=False) 
+use_seed = False
+if use_seed:
+    np.random.seed(1234)
+    LN_bodyIds = df_neur_ids[df_neur_ids.altype == 'LN'].bodyId.values
+    num_LNs = len(LN_bodyIds)
+    num_eLNs = int(np.round(num_LNs / 6.4))
+    topk = int(np.round(num_LNs / 2))
+    nlns = len(LN_bodyIds)
+    elnpos = np.random.choice(np.arange(topk), num_eLNs, replace=False)
+else:
+    # the result of running the above code, to avoid setting a seed
+    # and generating the same resamples in the subsequent code
+    elnpos = np.array([63, 36, 54, 62, 78, 85, 55, 57,
+     44, 92, 29, 40, 33, 61, 39, 59, 1, 56, 71, 9, 79, 
+     27, 66, 72, 96, 48, 35, 74, 4, 64, 10])
+
 print(elnpos)
 
 #########
@@ -120,13 +129,13 @@ if RESAMPLE_ORNs:
 
 if RESAMPLE_LNs:
     random_LN_sample = np.random.choice(final_LN_ids, len(final_LN_ids), replace=True)
-    df_neur_LNs.glom = pd.to_numeric(df_neur_LNs.glom)
-    random_LN_sample_sorted_by_charId = (df_neur_LNs
+    df_neur_LNs['LN_order'] = np.arange(len(df_neur_LNs))
+    random_LN_sample_sorted_by_neurId = (df_neur_LNs
         .set_index('bodyId')
         .loc[random_LN_sample]
-        .sort_values('glom', ascending=True)
+        .sort_values('LN_order', ascending=True)
         ).index.values
-    final_LN_ids = random_LN_sample_sorted_by_charId
+    final_LN_ids = random_LN_sample_sorted_by_neurId
 
 if RESAMPLE_PNs:
     upn_bodyIds = df_neur_PNs[df_neur_PNs.altype == 'uPN'].bodyId.values
@@ -220,8 +229,8 @@ sim_params_seed = {
     'decay_fadapt': decay_fadapt,
     'erase_sim_output': erase_sim_output,
     'imputed_glom_odor_table': imput_table,
-    'df_neur_ids': df_neur_ids,
-    'al_block': al_block
+    'df_neur_ids': df_neur_ids_resampled,
+    'al_block': al_block_resampled
     }
 
 pickle.dump(sim_params_seed,

@@ -122,6 +122,9 @@ pickle.dump(sim.neur_names, open(os.path.join(saveto_dir, 'sim_neur_names.p'), '
 pickle.dump(csr_matrix(Spikes), open(os.path.join(saveto_dir, 'Spikes_csr.p'), 'wb'))
 sim.df_neur_ids.to_csv(os.path.join(saveto_dir, 'df_neur_ids.csv'))
 
+print('max unique bodyIds:', max(sim.df_neur_ids.bodyId.value_counts()))
+
+
 # get firing rate info
 df_AL_activity, df_AL_activity_long = get_AL_activity_dfs(sim, Spikes)
 # save info
@@ -130,7 +133,7 @@ df_AL_activity.to_csv(os.path.join(saveto_dir, 'df_AL_activity.csv'))
 
 # save model output PDF
 run_model_dir = os.path.join(file_path.split('run_model')[0], 'run_model')
-all_pdf_fpath = os.path.join(run_model_dir, 'all_pdfs_sensitivity_sweep')
+all_pdf_fpath = os.path.join(run_model_dir, 'all_pdfs_resampling_ORNs_LNs_PNs')
 if not os.path.exists(all_pdf_fpath):
     os.makedirs(all_pdf_fpath)
 print('making pdf...')
