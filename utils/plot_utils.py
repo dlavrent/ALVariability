@@ -111,4 +111,50 @@ def plot_scaled_hmap(fig, conmat, neur_sets, neur_set_names, cmap='jet'):
         axs[n_types-1][i].set_xlabel(neur_full_names[i])
         
         
+def obj_data_to_mesh3d(odata):
+    '''
+    Function taken from:
+    https://plot.ly/~empet/15040/plotly-mesh3d-from-a-wavefront-obj-f/#/
+    '''
+    # odata is the string read from an obj file
+    vertices = []
+    faces = []
+    lines = odata.splitlines()   
+   
+    for line in lines:
+        slist = line.split()
+        if slist:
+            if slist[0] == 'v':
+                vertex = np.array(slist[1:], dtype=float)
+                vertices.append(vertex)
+            elif slist[0] == 'f':
+                face = []
+                for k in range(1, len(slist)):
+                    face.append([int(s) for s in slist[k].replace('//','/').split('/')])
+                if len(face) > 3: # triangulate the n-polyonal face, n>3
+                    faces.extend([[face[0][0]-1, face[k][0]-1, face[k+1][0]-1] for k in range(1, len(face)-1)])
+                else:    
+                    faces.append([face[j][0]-1 for j in range(len(face))])
+            else: pass
+    
+    
+    return np.array(vertices), np.array(faces)   
+
+def plot_mesh_vertices(ax, vertices, n_subsample=1000, alpha=0.4, label='', color=''):
+    '''
+    Given vertices of a mesh
+    (computed from obj_data_to_mesh3d),
+    and a number of vertices (n_subsample),
+    plots in 3d the points of the mesh
+    '''
+    n_subsample = min(len(vertices), n_subsample)
+    verts = vertices[np.random.choice(
+            len(vertices), n_subsample, replace=False)]
+    
+    if len(color) == 0:
+        ax.plot(verts[:, 0], verts[:, 1], verts[:, 2],
+            'o', lw=0, alpha=alpha, label=label)
+    else:
+        ax.plot(verts[:, 0], verts[:, 1], verts[:, 2],
+            'o', lw=0, alpha=alpha, label=label, color=color)
 
