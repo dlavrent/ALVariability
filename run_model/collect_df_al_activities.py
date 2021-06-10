@@ -14,7 +14,7 @@ n = datetime.now()
 time_tag = '{}_{}_{}-{}_{}_{}'.format(\
       n.year, n.month, n.day, n.hour, n.minute, n.second)
 
-master_sweep_dir = 'save_sims_resampling_ORNs_LNs_PNs'
+master_sweep_dir = 'save_sims_resampling_LN_subtypes'
 save_to_path = os.path.join(master_sweep_dir, 'd_sims_res_df_AL_activities_{}.p'.format(time_tag))
 
 
@@ -46,7 +46,11 @@ for cur_dir in sweep_dirs:
     except:
         nfail += 1
         print('\tno df_neur_ids')
-        
+    try:
+        ln_resample_set = pd.read_csv( os.path.join(master_sweep_dir, cur_dir, 'LN_resample_set.csv'), index_col=0)
+        d_sims[cur_dir]['ln_resample_set'] = ln_resample_set
+    except:
+        print('\tno LN_resample_set')
     if nfail == 0:
         d_sims[cur_dir]['success'] = 1
     elif nfail == 2:        

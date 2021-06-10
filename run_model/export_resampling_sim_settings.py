@@ -16,6 +16,7 @@ sys.path.append(project_dir)
 
 import pickle
 import numpy as np
+import re
 import pandas as pd
 from datetime import datetime
 from utils.model_params import params as hemi_params
@@ -29,6 +30,10 @@ parser.add_argument('--mI', type=float, default=0.2, help='multiplier on iLN col
 parser.add_argument('--mP', type=float, default=4, help='multiplier on PN column')
 parser.add_argument('--rO', type=int, default=0, help='binary, resample ORNs?')
 parser.add_argument('--rL', type=int, default=0, help='binary, resample LNs?')
+parser.add_argument('--rLpatchy', type=int, default=0, help='binary, resample patchy LNs?')
+parser.add_argument('--rLbroad', type=int, default=0, help='binary, resample broad LNs?')
+parser.add_argument('--rLregional', type=int, default=0, help='binary, resample regional LNs?')
+parser.add_argument('--rLsparse', type=int, default=0, help='binary, resample sparse LNs?')
 parser.add_argument('--rP', type=int, default=0, help='binary, resample PNs?')
 parser.add_argument('--ruP', type=int, default=1, help='binary, resample uPNs? only active if --rP on')
 parser.add_argument('--rmP', type=int, default=1, help='binary, resample mPNs? only active if --rP on')
@@ -37,12 +42,13 @@ args = parser.parse_args()
 
 MULT_ALL = args.mA; MULT_ORN = args.mO; MULT_ELN = args.mE; MULT_ILN = args.mI; MULT_PN = args.mP
 RESAMPLE_ORNs = args.rO; RESAMPLE_LNs = args.rL; RESAMPLE_PNs = args.rP; RESAMPLE_uPNs = args.ruP; RESAMPLE_mPNs = args.rmP
+RESAMPLE_LNS_PATCHY = args.rLpatchy; RESAMPLE_LNS_BROAD = args.rLbroad; RESAMPLE_LNS_REGIONAL = args.rLregional; RESAMPLE_LNS_SPARSE = args.rLsparse
 
 print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_resampling_ORNs_LNs_PNs')
+                               'save_sims_resampling_LN_subtypes')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
@@ -128,7 +134,32 @@ if RESAMPLE_ORNs:
     final_ORN_ids = random_ORN_sample
 
 if RESAMPLE_LNs:
-    random_LN_sample = np.random.choice(final_LN_ids, len(final_LN_ids), replace=True)
+    if np.any([RESAMPLE_LNS_SPARSE, RESAMPLE_LNS_BROAD, RESAMPLE_LNS_PATCHY, RESAMPLE_LNS_REGIONAL]):
+        # if resampling a particular LN subtype, import LN meta information
+        df_meta_LN = pd.read_csv(os.path.join(project_dir, 'datasets/Schlegel2020/S4_hemibrain_ALLN_meta.csv'))
+        df_neur_LNs = df_neur_LNs.merge(df_meta_LN[['bodyid', 'anatomy.group']], left_on='bodyId', right_on='bodyid')
+        get_LN_class = lambda  s: re.findall('_LN_(\w+)_[\w+]?', s)[0]
+        df_neur_LNs['ln_class'] = [get_LN_class(s) for s in df_neur_LNs['anatomy.group']]
+        
+        if RESAMPLE_LNS_SPARSE:
+            classname = 'sparse'
+        elif RESAMPLE_LNS_BROAD:
+            classname = 'broad'
+        elif RESAMPLE_LNS_PATCHY:
+            classname = 'patchy'
+        elif RESAMPLE_LNS_REGIONAL:
+            classname = 'regional'
+        
+        # take all of the LNs belonging to the class
+        bodyIds_LN_class = df_neur_LNs[df_neur_LNs.ln_class == classname]['bodyId'].values
+        # pick out 14 as a subset to resample
+        LN_class_subset = np.random.choice(bodyIds_LN_class, 14, replace=False)
+        LN_class_subset_resampled = np.random.choice(LN_class_subset, 14, replace=True)
+        random_LN_sample = np.concatenate((final_LN_ids[~np.isin(final_LN_ids, LN_class_subset)], LN_class_subset_resampled))
+    else:
+        # resample the entire list of LNs
+        random_LN_sample = np.random.choice(final_LN_ids, len(final_LN_ids), replace=True)
+        
     df_neur_LNs['LN_order'] = np.arange(len(df_neur_LNs))
     random_LN_sample_sorted_by_neurId = (df_neur_LNs
         .set_index('bodyId')
@@ -170,7 +201,8 @@ resamp_tag = '{}{}{}'.format('ORN_'*RESAMPLE_ORNs,
                             'LN_'*RESAMPLE_LNs, 
                             '{}{}PN_'.format('u'*RESAMPLE_uPNs,
                                              'm'*RESAMPLE_mPNs)*RESAMPLE_PNs)
-
+if np.any([RESAMPLE_LNS_SPARSE, RESAMPLE_LNS_BROAD, RESAMPLE_LNS_PATCHY, RESAMPLE_LNS_REGIONAL]):
+    resamp_tag += classname + '_'
 #########
 ######### RESAMPLING
 #########
@@ -237,6 +269,9 @@ pickle.dump(sim_params_seed,
             open(os.path.join(saveto_dir, 'sim_params_seed.p'), "wb" ))
 
 print('saving other files...')
+
+if np.any([RESAMPLE_LNS_SPARSE, RESAMPLE_LNS_BROAD, RESAMPLE_LNS_PATCHY, RESAMPLE_LNS_REGIONAL]):
+    pd.Series(LN_class_subset_resampled).value_counts().reindex(LN_class_subset).to_csv(os.path.join(saveto_dir, 'LN_resample_set.csv'))
 
 # write run_sim.py
 with open('run_sim_template.py', 'r') as rf:
