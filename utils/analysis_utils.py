@@ -79,7 +79,7 @@ df_neur_ids_bhand  = df_neur_ids.copy()[
 
 #
 
-df_bhand_frs = pd.read_csv('../datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv')
+df_bhand_frs = pd.read_csv(os.path.join(project_dir, 'datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv'))
 df_bhand_orn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'ORN'].pivot('glomerulus', 'odor', 'firing_rate').loc[bhand_gloms, odor_names]
 df_bhand_pn_glom_by_odor = df_bhand_frs[df_bhand_frs.cell_type == 'PN'].pivot('glomerulus', 'odor', 'firing_rate').loc[bhand_gloms, odor_names]
 
