@@ -87,10 +87,10 @@ bhand_ORN_projections, bhand_ORN_pca = do_PCA(df_bhand_orn_glom_by_odor.T)
 bhand_PN_projections, bhand_PN_pca = do_PCA(df_bhand_pn_glom_by_odor.T)
     
 
-def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table):
+def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table, gloms):
 
     
-    for g in bhand_gloms:
+    for g in gloms:
         axs[0].plot(orn_table.loc[g], pn_table.loc[g], 'o', label=g)
 
         axs[1].plot(df_bhand_orn_glom_by_odor.loc[g], 
@@ -104,14 +104,14 @@ def plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, orn_table, pn_table):
     #.show()
     
     
-def plot_PCA_comparison_Bhandawat(fig, axs, dfORNpca, dfPNpca):
+def plot_PCA_comparison_Bhandawat(fig, axs, bhand_ORN_projections, bhand_PN_projections, model_ORN_projections, model_PN_projections):
     
 
     for i in range(len(odor_names)):
         axs[0, 0].scatter(bhand_ORN_projections[i, 1], -bhand_ORN_projections[i, 0], label=odor_names[i])
         axs[0, 1].scatter(bhand_PN_projections[i, 1], -bhand_PN_projections[i, 0], label=odor_names[i])
-        axs[1, 0].scatter(dfORNpca[i, 1], -dfORNpca[i, 0], label=odor_names[i])
-        axs[1, 1].scatter(dfPNpca[i, 1], -dfPNpca[i, 0], label=odor_names[i])
+        axs[1, 0].scatter(model_ORN_projections[i, 1], -model_ORN_projections[i, 0], label=odor_names[i])
+        axs[1, 1].scatter(model_PN_projections[i, 1], -model_PN_projections[i, 0], label=odor_names[i])
 
 
     axs[0, 0].set_title('ORNs (Bhandawat 2007)')
@@ -129,11 +129,8 @@ def plot_PCA_comparison_Bhandawat(fig, axs, dfORNpca, dfPNpca):
 
     #plt.show()
     
-def plot_PCA_dist_comparison_Bhandawat(fig, axs, model_pca_orndists, model_pca_pndists):
+def plot_PCA_dist_comparison_Bhandawat(fig, axs, bhandawat_pca_orndists,  bhandawat_pca_pndists, model_pca_orndists, model_pca_pndists):
     
-    bhandawat_pca_orndists = pdist(bhand_ORN_projections, metric='euclidean')
-    bhandawat_pca_pndists = pdist(bhand_PN_projections, metric='euclidean')
-        
     arrs = [model_pca_orndists, model_pca_pndists, bhandawat_pca_orndists, bhandawat_pca_pndists]
     mindist = min([min(r) for r in arrs])
     maxdist = max([max(r) for r in arrs])
@@ -181,24 +178,24 @@ def make_comparison_plots(df_AL_activity, plot_dir):
     df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF = \
         make_glomerular_odor_responses(df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, df_AL_activity_bhand)
         
-        
+    
     # plot ORN, PN on-off firing rate histograms
     plt.figure(figsize=(12,10))
     plot_ornpn_hist(df_AL_activity_long_bhand, 
                     df_orn_frs_bhand_ONOFF, df_upn_frs_bhand_ONOFF, savetag='hist_onoff_bhand', 
-                    saveplot=1, savetodir=plot_dir, showplot=0)
+                    saveplot=1, savetodir=plot_dir, showplot=0, hist_x_label=' ON-OFF odor,\nindivid neurons, Bhandawat gloms except VM2')
     plt.close()
     
     plt.figure(figsize=(12,10))
     plot_ornpn_hist(df_AL_activity_long_bhand, 
                     df_orn_frs_bhand_ON, df_upn_frs_bhand_ON, savetag='hist_on_bhand', 
-                    saveplot=1, savetodir=plot_dir, showplot=0, sub_pre=False)
+                    saveplot=1, savetodir=plot_dir, showplot=0, hist_x_label=' ON odor,\nindivid neurons, Bhandawat gloms except VM2')
     plt.close()
 
     plt.figure(figsize=(12,10))
     plot_ornpn_hist(df_AL_activity_long_bhand, 
                     df_orn_glom_frs_bhand_ONOFF, df_upn_glom_frs_bhand_ONOFF, savetag='hist_onoff_bhand_grouped_glomerulus', 
-                    saveplot=1, savetodir=plot_dir, showplot=0)
+                    saveplot=1, savetodir=plot_dir, showplot=0, hist_x_label=' ON-OFF odor,\ngrouped by glom, Bhandawat gloms except VM2')
     plt.close()
 
     
@@ -209,32 +206,58 @@ def make_comparison_plots(df_AL_activity, plot_dir):
         
         
     fig, axs = plt.subplots(1, 2, figsize=(10,5), sharex=True, sharey=True)
-    plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, df_orn_glom_frs_bhand_ON, df_upn_glom_frs_bhand_ON)
+    plot_PN_vs_ORN_comparison_to_Bhandawat(fig, axs, df_orn_glom_frs_bhand_ON, df_upn_glom_frs_bhand_ON, model_bhand_gloms)
     plt.savefig(os.path.join(plot_dir, 'compare_PN_vs_ORN_bhand.png'), bbox_inches='tight')
     plt.close()
     
     
-        
-    df_orn_glom_frs_bhand_ONOFF = df_orn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
-    df_upn_glom_frs_bhand_ONOFF = df_upn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
-    
-    model_ORN_projections, model_ORN_pca = do_PCA(df_orn_glom_frs_bhand_ONOFF.T)
-    model_PN_projections, model_PN_pca = do_PCA(df_upn_glom_frs_bhand_ONOFF.T)
+    bhand_ORN_noVM2_projections, bhand_ORN_noVM2_pca = do_PCA(df_bhand_orn_glom_by_odor.loc[model_bhand_gloms, odor_names].T)
+    bhand_PN_noVM2_projections, bhand_PN_noVM2_pca = do_PCA(df_bhand_pn_glom_by_odor.loc[model_bhand_gloms, odor_names].T)
 
+
+    df_orn_glom_frs_bhand_ONOFF_noVM2 = df_orn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
+    df_upn_glom_frs_bhand_ONOFF_noVM2 = df_upn_glom_frs_bhand_ONOFF.loc[model_bhand_gloms, odor_names]
+    model_ORN_projections, model_ORN_pca = do_PCA(df_orn_glom_frs_bhand_ONOFF_noVM2.T)
+    model_PN_projections, model_PN_pca = do_PCA(df_upn_glom_frs_bhand_ONOFF_noVM2.T)
+    
+    model_ORN_projected_to_bhand_noVM2 = bhand_ORN_noVM2_pca.transform(df_orn_glom_frs_bhand_ONOFF_noVM2.T)[:, :2]
+    model_PN_projected_to_bhand_noVM2 = bhand_ORN_noVM2_pca.transform(df_upn_glom_frs_bhand_ONOFF_noVM2.T)[:, :2]
     
     fig, axs = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(8, 8))
-    plot_PCA_comparison_Bhandawat(fig, axs, model_ORN_projections, model_PN_projections)
-    plt.savefig(os.path.join(plot_dir, 'compare_PCA_bhand.png'), bbox_inches='tight')
+    plot_PCA_comparison_Bhandawat(fig, axs, 
+                                  bhand_ORN_noVM2_projections, bhand_PN_noVM2_projections,
+                                  model_ORN_projections, model_PN_projections)
+    plt.savefig(os.path.join(plot_dir, 'compare_PCA_bhand_noVM2.png'), bbox_inches='tight')
+    plt.close()
+    
+    fig, axs = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(8, 8))
+    plot_PCA_comparison_Bhandawat(fig, axs, 
+                                  bhand_ORN_noVM2_projections, bhand_PN_noVM2_projections,
+                                  model_ORN_projected_to_bhand_noVM2, model_PN_projected_to_bhand_noVM2)
+    plt.savefig(os.path.join(plot_dir, 'compare_PCA_bhand_projected_noVM2.png'), bbox_inches='tight')
     plt.close()
     
     
+    bhandawat_pca_noVM2_orndists = pdist(bhand_ORN_noVM2_projections, metric='euclidean')
+    bhandawat_pca_noVM2_pndists = pdist(bhand_PN_noVM2_projections, metric='euclidean')
     model_pca_orndists = pdist(model_ORN_projections, metric='euclidean')
     model_pca_pndists = pdist(model_PN_projections, metric='euclidean')
+    model_projected_to_bhand_orndists = pdist(model_ORN_projected_to_bhand_noVM2, metric='euclidean')
+    model_projected_to_bhand_pndists = pdist(model_PN_projected_to_bhand_noVM2, metric='euclidean')
+    
     fig, axs = plt.subplots(2, 1, sharex=True, figsize=(6, 8))
-    plot_PCA_dist_comparison_Bhandawat(fig, axs, model_pca_orndists, model_pca_pndists)
-    plt.savefig(os.path.join(plot_dir, 'compare_PCA_dists_bhand.png'), bbox_inches='tight')
+    plot_PCA_dist_comparison_Bhandawat(fig, axs, 
+                                       bhandawat_pca_noVM2_orndists, bhandawat_pca_noVM2_pndists,
+                                       model_pca_orndists, model_pca_pndists)
+    plt.savefig(os.path.join(plot_dir, 'compare_PCA_dists_bhand_noVM2.png'), bbox_inches='tight')
     plt.close()
 
+    fig, axs = plt.subplots(2, 1, sharex=True, figsize=(6, 8))
+    plot_PCA_dist_comparison_Bhandawat(fig, axs, 
+                                       bhandawat_pca_noVM2_orndists, bhandawat_pca_noVM2_pndists,
+                                       model_projected_to_bhand_orndists, model_projected_to_bhand_pndists)
+    plt.savefig(os.path.join(plot_dir, 'compare_PCA_dists_projected_to_Bhand_noVM2.png'), bbox_inches='tight')
+    plt.close()
 
 def make_comparison_pdf(plot_dir, msg=''):
     
@@ -253,7 +276,7 @@ def make_comparison_pdf(plot_dir, msg=''):
     
     fig_PCA_dists = os.path.join(os.path.abspath(plot_dir), 'compare_PCA_dists_bhand.png')
     fig_PCA_projections = os.path.join(os.path.abspath(plot_dir), 'compare_PCA_bhand.png')
-    fig_hist_onoff = os.path.join(os.path.abspath(plot_dir), 'hist_onoff_bhand.png')
+    fig_hist_onoff = os.path.join(os.path.abspath(plot_dir), 'hist_onoff_bhand_grouped_glomerulus.png')
     fig_pn_vs_orn = os.path.join(os.path.abspath(plot_dir), 'compare_PN_vs_ORN_bhand.png')
     
     can.drawImage(fig_PCA_projections,
@@ -286,5 +309,14 @@ def make_comparison_pdf(plot_dir, msg=''):
     return out_pdf_fname
 
 
-#df_AL_activity = pd.read_csv('C:/Users/dB/deBivort/projects/ALVariability/candidates/df_AL_activity_a0.1_e0.25_i0.2_p6.0.csv', index_col=0)    
-#make_comparison_plots(df_AL_activity, 'tr5')
+
+if __name__ == '__main__':
+    sim_dir = 'C:/Users/dB/deBivort/projects/ALVariability/run_model/save_sims_sensitivity_sweep/2021_4_22-5_23_9__0v12_all0.1_ecol0.4_icol0.2_pcol4.0_sweep_Bhandawat_odors_5_23_9/'
+    df_AL_activity = pd.read_csv(os.path.join(sim_dir, 'df_AL_activity.csv'), index_col=0)
+    saveto_dir = os.path.join(sim_dir, 'save_bhandawat_plots')
+    if not os.path.exists(saveto_dir):
+        os.makedirs(saveto_dir)
+    
+    
+    make_comparison_plots(df_AL_activity, saveto_dir)
+    make_comparison_pdf(saveto_dir, msg='all0.1_ecol0.4_icol0.2_pcol4.0')
