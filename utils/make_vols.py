@@ -91,12 +91,8 @@ a_mle, sd_mle, d_mle = max_lik_res['x']
 
 drawn_glom_synapses = pd.Series(stats.lognorm.rvs(s=sd_mle, scale=a_mle*Vs**d_mle), index=df_glom_vols_synapses.index)
 
-
-def adjust_glomerular_synapses_AL_block(df_neur_ids_RESAMPLE, al_block):
+def adjust_glomerular_synapses_AL_block(df_neur_ids_RESAMPLE, al_block_RESAMPLE):
     
-    bodyIds_RESAMPLE = df_neur_ids_RESAMPLE.bodyId
-    al_block_RESAMPLE = al_block.loc[bodyIds_RESAMPLE, bodyIds_RESAMPLE]
-
     for g in hemi_gloms:
     
         g_RESAMPLE_pns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'uPN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values

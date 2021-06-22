@@ -20,6 +20,7 @@ import re
 import pandas as pd
 from datetime import datetime
 from utils.model_params import params as hemi_params
+from utils.make_vols import adjust_glomerular_synapses_AL_block, plot_comparison_cones
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -37,18 +38,20 @@ parser.add_argument('--rLsparse', type=int, default=0, help='binary, resample sp
 parser.add_argument('--rP', type=int, default=0, help='binary, resample PNs?')
 parser.add_argument('--ruP', type=int, default=1, help='binary, resample uPNs? only active if --rP on')
 parser.add_argument('--rmP', type=int, default=1, help='binary, resample mPNs? only active if --rP on')
+parser.add_argument('--adjustPNInputs', type=int, default=0, help='adjust PN inputs by glomerular synapse count?')
 
 args = parser.parse_args()
 
 MULT_ALL = args.mA; MULT_ORN = args.mO; MULT_ELN = args.mE; MULT_ILN = args.mI; MULT_PN = args.mP
 RESAMPLE_ORNs = args.rO; RESAMPLE_LNs = args.rL; RESAMPLE_PNs = args.rP; RESAMPLE_uPNs = args.ruP; RESAMPLE_mPNs = args.rmP
 RESAMPLE_LNS_PATCHY = args.rLpatchy; RESAMPLE_LNS_BROAD = args.rLbroad; RESAMPLE_LNS_REGIONAL = args.rLregional; RESAMPLE_LNS_SPARSE = args.rLsparse
+ADJUST_PN_INPUTS = args.adjustPNInputs
 
 print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_resampling_ORNs_LNs_PNs')
+                               'save_sims_resampling_ORNs_LNs_PNs_adjustGlomSynapses')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
@@ -197,6 +200,11 @@ df_neur_ids_resampled = df_neur_ids.set_index('bodyId').loc[final_bodyIds].reset
 al_block.columns = al_block.columns.astype(np.int64)
 al_block_resampled = al_block.loc[final_bodyIds, final_bodyIds]
 
+
+if ADJUST_PN_INPUTS:
+    al_block_resampled = adjust_glomerular_synapses_AL_block(df_neur_ids_resampled, al_block_resampled)
+    
+
 resamp_tag = '{}{}{}'.format('ORN_'*RESAMPLE_ORNs, 
                             'LN_'*RESAMPLE_LNs, 
                             '{}{}PN_'.format('u'*RESAMPLE_uPNs,
@@ -226,7 +234,7 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_adjustPNInputs_{sec_tag}'
 run_explanation = '''
 v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
 using ALS imputed MAC odors
@@ -234,6 +242,7 @@ all x0.1, eLNs x0.4, iLNs x0.2, PNs x4
 1/6.4 of LNs are set as excitatory (Tsai et al, 2018), 
     drawn randomly from top 50\% of LNs when sorted by number of glomeruli innervated 
 ORN decay timescale 110 ms to 75% (Kao and Lo, 2020)
+PN input weights adjusted by hemibrain glomerular synapse counts
 '''
 
 # erase output
@@ -244,6 +253,8 @@ saveto_dir = os.path.join(master_save_dir, time_tag+'__'+run_tag)
 if not os.path.exists(saveto_dir):
     os.mkdir(saveto_dir)
     
+plot_comparison_cones(df_neur_ids_resampled, al_block_resampled, saveto_dir=saveto_dir, showplots=0)
+
 ##### SAVE INFO
 print('saving sim_params_seed.p...')
 sim_params_seed = {
@@ -262,7 +273,8 @@ sim_params_seed = {
     'erase_sim_output': erase_sim_output,
     'imputed_glom_odor_table': imput_table,
     'df_neur_ids': df_neur_ids_resampled,
-    'al_block': al_block_resampled
+    'al_block': al_block_resampled,
+    'adjustPNInput': ADJUST_PN_INPUTS
     }
 
 pickle.dump(sim_params_seed,
