@@ -7,6 +7,7 @@ Created on Tue Jun 22 13:51:55 2021
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import sys
 import os
 from scipy import stats
@@ -86,185 +87,167 @@ def ll_lognormal_exp(params, Vs, Ss):
 
 max_lik_res = optimize.minimize(ll_lognormal_exp, x0=(1, 0.5, 1), args=(Vs, Ss))
 a_mle, sd_mle, d_mle = max_lik_res['x']
-max_lik_res
 
 
 drawn_glom_synapses = pd.Series(stats.lognorm.rvs(s=sd_mle, scale=a_mle*Vs**d_mle), index=df_glom_vols_synapses.index)
 
-import matplotlib.pyplot as plt
 
-plt.figure()
-for g in hemi_gloms:
-    plt.scatter(df_glom_vols_synapses['convex_hull_vol']['mean'].loc[g],
-                drawn_glom_synapses.loc[g])
-plt.show()
-
-
-fig, ax = plt.subplots(1, 1, figsize=(7,6), sharey=True)
-ax.scatter(Vs, Ss, c='k')
-
-
-nsamp = 10
-for ns in range(nsamp):
-    ex_Ss = stats.lognorm.rvs(s=sd_mle, scale=a_mle*Vs**d_mle)
-    ax.scatter(Vs, ex_Ss, alpha=0.25)
-
-
-ax.set_xlabel('hemibrain glom volume (um$^3$)')
-ax.axhline(0, c='k', ls='--')
-
-ax.set_ylabel('total synapses onto PNs')
-plt.suptitle(r'$synapses_g = a \cdot volume_g + \varepsilon_g,  ~~ \varepsilon_g \sim N(0, \sigma^2)$' + \
-             '\n' + r'$\hat{a}_{MLE} = $' + '{:.2f}'.format(a_mle) + r', $\hat{\sigma}_{MLE} = $' + '{:.2f}'.format(sd_mle), y=1.07)
-plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0)
-plt.show()
-
-np.sum(np.abs(ex_Ss - a_mle*Vs) <= sd_mle) / len(Vs)
-
-
-
-resample_dir = '2021_5_19-16_30_3__0v12_all0.1_ecol0.4_icol0.2_pcol4_resample_ORN_LN_umPN__16_30_3/'
-
-df_neur_ids_RESAMPLE = pd.read_csv(os.path.join(project_dir, 'run_model/save_sims_resampling_ORNs_LNs_PNs/', 
-                                                resample_dir, 'df_neur_ids.csv'), index_col=0)
-
-bodyIds_RESAMPLE = df_neur_ids_RESAMPLE.bodyId
-al_block_RESAMPLE = al_block.loc[bodyIds_RESAMPLE, bodyIds_RESAMPLE]
-
-
-for g in hemi_gloms:
-
-    g_RESAMPLE_pns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'uPN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
-
-    g_RESAMPLE_pn_inputs = al_block_RESAMPLE.loc[:, al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)]
+def adjust_glomerular_synapses_AL_block(df_neur_ids_RESAMPLE, al_block):
     
-    g_old_tot_synapse_counts = g_RESAMPLE_pn_inputs.sum().sum()
-    g_new_tot_synapse_counts = drawn_glom_synapses.loc[g]
+    bodyIds_RESAMPLE = df_neur_ids_RESAMPLE.bodyId
+    al_block_RESAMPLE = al_block.loc[bodyIds_RESAMPLE, bodyIds_RESAMPLE]
 
-    al_block_RESAMPLE.loc[:, al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)] = np.floor(g_RESAMPLE_pn_inputs * g_new_tot_synapse_counts  / g_old_tot_synapse_counts)
-
-
-
-##### test whether worked
-
-orn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'ORN']['bodyId'].values
-ln_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'LN']['bodyId'].values
-upn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'uPN']['bodyId'].values
-mpn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'mPN']['bodyId'].values
-
-show_glom_text = False
-
-np.random.seed(124)
-glom_colors = {g: np.random.uniform(0, 1, 3) for g in hemi_gloms}
-
-fig, axs = plt.subplots(2, 3, figsize=(16,10), sharex=True, sharey=True)
-
-df_glom_inputs_resample = []
-for g in hemi_gloms:
+    for g in hemi_gloms:
     
+        g_RESAMPLE_pns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'uPN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
     
-    g_RESAMPLE_pns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'uPN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
-    g_RESAMPLE_orns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'ORN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
-    
+        g_RESAMPLE_pn_inputs = al_block_RESAMPLE.loc[:, al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)]
         
-    g_RESAMPLE_block_all = al_block_RESAMPLE.loc[:,
+        g_old_tot_synapse_counts = g_RESAMPLE_pn_inputs.sum().sum()
+        g_new_tot_synapse_counts = drawn_glom_synapses.loc[g]
+    
+        al_block_RESAMPLE.loc[:, al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)] = np.floor(g_RESAMPLE_pn_inputs * g_new_tot_synapse_counts  / g_old_tot_synapse_counts)
+    
+    return al_block_RESAMPLE
+
+
+
+def plot_comparison_cones(df_neur_ids_RESAMPLE, al_block_RESAMPLE, saveto_dir = '', showplots=0):
+    
+    
+    orn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'ORN']['bodyId'].values
+    ln_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'LN']['bodyId'].values
+    upn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'uPN']['bodyId'].values
+    mpn_ids_resample = df_neur_ids_RESAMPLE[df_neur_ids_RESAMPLE.altype == 'mPN']['bodyId'].values
+    
+    np.random.seed(124)
+    glom_colors = {g: np.random.uniform(0, 1, 3) for g in hemi_gloms}
+    
+    fig, axs = plt.subplots(2, 3, figsize=(16,10), sharex=True, sharey=True)
+    
+    df_glom_inputs_resample = []
+    for g in hemi_gloms:
+        
+        
+        g_RESAMPLE_pns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'uPN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
+        g_RESAMPLE_orns = df_neur_ids_RESAMPLE[(df_neur_ids_RESAMPLE.altype == 'ORN') & (df_neur_ids_RESAMPLE.glom == g)]['bodyId'].values
+        
+            
+        g_RESAMPLE_block_all = al_block_RESAMPLE.loc[:,
+                                        al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                    ].sum(0).values
+        
+        
+        
+        
+        g_RESAMPLE_block_orn = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_orns), 
                                     al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
                                 ].sum(0).values
+        g_RESAMPLE_block_ln = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(ln_ids_resample), 
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                ].sum(0).values
+        g_RESAMPLE_block_same_pn = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns), 
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                ].sum(0).values
+        
+        
+        other_orn_ids_resample = orn_ids_resample[~np.isin(orn_ids_resample, g_RESAMPLE_orns)]
+        other_upn_ids_resample = upn_ids_resample[~np.isin(upn_ids_resample, g_RESAMPLE_pns)]
+        
+        g_RESAMPLE_block_other_orn = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(other_orn_ids_resample), 
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                ].sum(0).values
+        g_RESAMPLE_block_other_upn = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(other_upn_ids_resample), 
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                ].sum(0).values
+        
+        g_RESAMPLE_block_mpn = al_block_RESAMPLE.loc[
+                                    al_block_RESAMPLE.columns.isin(mpn_ids_resample), 
+                                    al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
+                                ].sum(0).values
+        
+        g_vol_hemi = glom_convex_hull_vols.loc[g]   
+        
+        df_glom_inputs_resample.append(
+            pd.DataFrame({
+                  'glom': [g]*len(g_RESAMPLE_pns),
+                  'pns': g_RESAMPLE_pns, 
+                  'ORN (same glom)': g_RESAMPLE_block_orn, 
+                  'ORN (diff glom)': g_RESAMPLE_block_other_orn,
+                  'uPN (same glom)': g_RESAMPLE_block_same_pn,
+                  'uPN (diff glom)': g_RESAMPLE_block_other_upn,
+                  'mPN': g_RESAMPLE_block_mpn,
+                  'LN': g_RESAMPLE_block_ln,
+                  'all_input': g_RESAMPLE_block_all,
+                  'convex_hull_vol': [g_vol_hemi]*len(g_RESAMPLE_pns)}))
+        
+        
+        axs[0, 0].scatter(g_vol_hemi, g_RESAMPLE_block_orn.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        axs[0, 1].scatter(g_vol_hemi, g_RESAMPLE_block_other_orn.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        axs[0, 2].scatter(g_vol_hemi, g_RESAMPLE_block_ln.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        axs[1, 0].scatter(g_vol_hemi, g_RESAMPLE_block_same_pn.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        axs[1, 1].scatter(g_vol_hemi, g_RESAMPLE_block_other_upn.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        axs[1, 2].scatter(g_vol_hemi, g_RESAMPLE_block_mpn.sum(), label=g, color=glom_colors[g], alpha=0.7)
+        
+    labadds = ['same glom ORN', 'different glom ORN', 'LN', 'same glom PN', 'other glom PN', 'mPN']
+    for i in range(6):
+        rowpos = i // 3
+        colpos = i % 3
+        ax = axs[rowpos, colpos]
+        ax.set_title(labadds[i])
+        
+    axs[1, 0].set_ylabel('synapses from [title] onto PNs')
+    axs[1, 0].set_xlabel('hemibrain glom volume (um$^3$)')
+    plt.savefig(os.path.join(saveto_dir, 'adjusted_PN_synapses_breakdown.png'))
+    if showplots:
+        plt.show()
+    plt.close()
+    
+    
+    df_glom_inputs_resample = pd.concat(df_glom_inputs_resample)
     
     
     
+    dt1 = df_glom_inputs[['glom', 'all_input', 'convex_hull_vol']].groupby('glom').agg({'all_input': ['sum'], 
+                                                                                              'convex_hull_vol': ['mean']})
+    dt2 = df_glom_inputs_resample[['glom', 'all_input', 'convex_hull_vol']].groupby('glom').agg({'all_input': ['sum'], 
+                                                                                              'convex_hull_vol': ['mean']})
     
-    g_RESAMPLE_block_orn = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_orns), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
-    g_RESAMPLE_block_ln = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(ln_ids_resample), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
-    g_RESAMPLE_block_same_pn = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
+    fig, axs = plt.subplots(1, 2, figsize=(12,5), sharex=True, sharey=True)
+    axs[0].scatter(dt1['convex_hull_vol'], dt1['all_input'])
+    axs[1].scatter(dt2['convex_hull_vol'], dt2['all_input'])
     
+    select_gloms = ['DP1m', 'DC4', 'DM3']
     
-    other_orn_ids_resample = orn_ids_resample[~np.isin(orn_ids_resample, g_RESAMPLE_orns)]
-    other_upn_ids_resample = upn_ids_resample[~np.isin(upn_ids_resample, g_RESAMPLE_pns)]
+    for sg in select_gloms:
+        axs[0].scatter(dt1.loc[sg, 'convex_hull_vol'], dt1.loc[sg, 'all_input'])
+        axs[1].scatter(dt2.loc[sg,'convex_hull_vol'], dt2.loc[sg, 'all_input'], label=sg)
+        
+    axs[1].legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0)
     
-    g_RESAMPLE_block_other_orn = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(other_orn_ids_resample), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
-    g_RESAMPLE_block_other_upn = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(other_upn_ids_resample), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
-    
-    g_RESAMPLE_block_mpn = al_block_RESAMPLE.loc[
-                                al_block_RESAMPLE.columns.isin(mpn_ids_resample), 
-                                al_block_RESAMPLE.columns.isin(g_RESAMPLE_pns)
-                            ].sum(0).values
-    
-    g_vol_hemi = glom_convex_hull_vols.loc[g]   
-    
-    df_glom_inputs_resample.append(
-        pd.DataFrame({
-              'glom': [g]*len(g_RESAMPLE_pns),
-              'pns': g_RESAMPLE_pns, 
-              'ORN (same glom)': g_RESAMPLE_block_orn, 
-              'ORN (diff glom)': g_RESAMPLE_block_other_orn,
-              'uPN (same glom)': g_RESAMPLE_block_same_pn,
-              'uPN (diff glom)': g_RESAMPLE_block_other_upn,
-              'mPN': g_RESAMPLE_block_mpn,
-              'LN': g_RESAMPLE_block_ln,
-              'all_input': g_RESAMPLE_block_all,
-              'convex_hull_vol': [g_vol_hemi]*len(g_RESAMPLE_pns)}))
-    
-    
-    axs[0, 0].scatter(g_vol_hemi, g_RESAMPLE_block_orn.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    axs[0, 1].scatter(g_vol_hemi, g_RESAMPLE_block_other_orn.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    axs[0, 2].scatter(g_vol_hemi, g_RESAMPLE_block_ln.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    axs[1, 0].scatter(g_vol_hemi, g_RESAMPLE_block_same_pn.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    axs[1, 1].scatter(g_vol_hemi, g_RESAMPLE_block_other_upn.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    axs[1, 2].scatter(g_vol_hemi, g_RESAMPLE_block_mpn.sum(), label=g, color=glom_colors[g], alpha=0.7)
-    
-labadds = ['same glom ORN', 'different glom ORN', 'LN', 'same glom PN', 'other glom PN', 'mPN']
-for i in range(6):
-    rowpos = i // 3
-    colpos = i % 3
-    ax = axs[rowpos, colpos]
-    ax.set_title(labadds[i])
-    
-axs[1, 0].set_ylabel('synapses from [title] onto PNs')
-axs[1, 0].set_xlabel('hemibrain glom volume (um$^3$)')
+    axs[0].set_title('hemibrain connectivity')
+    axs[1].set_title('resampled connectivity,\nadjusted with glomerular synapse counts')
+    for ax in axs:
+        ax.set_xlabel('hemibrain glom volume (um$^3$)')
+    axs[0].set_ylabel('total synapses onto PNs')
+    plt.savefig(os.path.join(saveto_dir, 'compare_PN_synapses.png'))
+    if showplots:
+        plt.show()
+    plt.close()
 
-plt.show()
 
 
-df_glom_inputs_resample = pd.concat(df_glom_inputs_resample)
-
-
-
-dt1 = df_glom_inputs[['glom', 'all_input', 'convex_hull_vol']].groupby('glom').agg({'all_input': ['sum'], 
-                                                                                          'convex_hull_vol': ['mean']})
-dt2 = df_glom_inputs_resample[['glom', 'all_input', 'convex_hull_vol']].groupby('glom').agg({'all_input': ['sum'], 
-                                                                                          'convex_hull_vol': ['mean']})
-
-fig, axs = plt.subplots(1, 2, figsize=(12,5), sharex=True, sharey=True)
-axs[0].scatter(dt1['convex_hull_vol'], dt1['all_input'])
-axs[1].scatter(dt2['convex_hull_vol'], dt2['all_input'])
-
-select_gloms = ['DP1m', 'DC4', 'DM3']
-
-for sg in select_gloms:
-    axs[0].scatter(dt1.loc[sg, 'convex_hull_vol'], dt1.loc[sg, 'all_input'])
-    axs[1].scatter(dt2.loc[sg,'convex_hull_vol'], dt2.loc[sg, 'all_input'], label=sg)
+if 0:
+        
+    resample_dir = '2021_5_19-16_30_3__0v12_all0.1_ecol0.4_icol0.2_pcol4_resample_ORN_LN_umPN__16_30_3/'
     
-axs[1].legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0)
-
-axs[0].set_title('hemibrain connectivity')
-axs[1].set_title('example +ORN+LN+PN resample connectivity\nremedied with sampling from cone')
-for ax in axs:
-    ax.set_xlabel('hemibrain glom volume (um$^3$)')
-axs[0].set_ylabel('total synapses onto PNs')
-plt.show()
+    df_neur_ids_RESAMPLE = pd.read_csv(os.path.join(project_dir, 'run_model/save_sims_resampling_ORNs_LNs_PNs/', 
+                                                    resample_dir, 'df_neur_ids.csv'), index_col=0)
+    
+    al_block_adjusted = adjust_glomerular_synapses_AL_block(df_neur_ids_RESAMPLE, al_block)
+    plot_comparison_cones(df_neur_ids_RESAMPLE, al_block_adjusted, saveto_dir = '', showplots=1)
