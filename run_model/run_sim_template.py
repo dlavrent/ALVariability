@@ -133,7 +133,7 @@ df_AL_activity.to_csv(os.path.join(saveto_dir, 'df_AL_activity.csv'))
 
 # save model output PDF
 run_model_dir = os.path.join(file_path.split('run_model')[0], 'run_model')
-all_pdf_fpath = os.path.join(run_model_dir, 'all_pdfs_resampling_LN_subtypes')
+all_pdf_fpath = os.path.join(run_model_dir, 'all_pdfs_resampling_ORNs_LNs_PNs')
 if not os.path.exists(all_pdf_fpath):
     os.makedirs(all_pdf_fpath)
 print('making pdf...')

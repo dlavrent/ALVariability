@@ -48,7 +48,7 @@ print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_resampling_LN_subtypes')
+                               'save_sims_resampling_ORNs_LNs_PNs')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
