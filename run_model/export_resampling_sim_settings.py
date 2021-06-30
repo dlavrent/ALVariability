@@ -200,17 +200,17 @@ df_neur_ids_resampled = df_neur_ids.set_index('bodyId').loc[final_bodyIds].reset
 al_block.columns = al_block.columns.astype(np.int64)
 al_block_resampled = al_block.loc[final_bodyIds, final_bodyIds]
 
-
-if ADJUST_PN_INPUTS:
-    al_block_resampled = adjust_glomerular_synapses_AL_block(df_neur_ids_resampled, al_block_resampled)
-    
-
 resamp_tag = '{}{}{}'.format('ORN_'*RESAMPLE_ORNs, 
                             'LN_'*RESAMPLE_LNs, 
                             '{}{}PN_'.format('u'*RESAMPLE_uPNs,
                                              'm'*RESAMPLE_mPNs)*RESAMPLE_PNs)
 if np.any([RESAMPLE_LNS_SPARSE, RESAMPLE_LNS_BROAD, RESAMPLE_LNS_PATCHY, RESAMPLE_LNS_REGIONAL]):
     resamp_tag += classname + '_'
+
+if ADJUST_PN_INPUTS:
+    al_block_resampled = adjust_glomerular_synapses_AL_block(df_neur_ids_resampled, al_block_resampled)
+    resamp_tag += 'adjustPNInputs_'
+
 #########
 ######### RESAMPLING
 #########
@@ -234,7 +234,7 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_adjustPNInputs_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_{sec_tag}'
 run_explanation = '''
 v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
 using ALS imputed MAC odors
