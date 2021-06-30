@@ -21,6 +21,7 @@ import pandas as pd
 from datetime import datetime
 from utils.model_params import params as hemi_params
 from utils.make_vols import adjust_glomerular_synapses_AL_block, plot_comparison_cones
+from scipy import stats
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -39,6 +40,10 @@ parser.add_argument('--rP', type=int, default=0, help='binary, resample PNs?')
 parser.add_argument('--ruP', type=int, default=1, help='binary, resample uPNs? only active if --rP on')
 parser.add_argument('--rmP', type=int, default=1, help='binary, resample mPNs? only active if --rP on')
 parser.add_argument('--adjustPNInputs', type=int, default=0, help='adjust PN inputs by glomerular synapse count?')
+parser.add_argument('--sO', type=int, default=0, help='binary, synaptic noise on ORNs?')
+parser.add_argument('--sL', type=int, default=0, help='binary, synaptic noise on LNs?')
+parser.add_argument('--sP', type=int, default=0, help='binary, synaptic noise on PNs?')
+parser.add_argument('--sStrength', type=float, default=0.0, help='float, extent of synaptic strength noise')
 
 args = parser.parse_args()
 
@@ -46,12 +51,13 @@ MULT_ALL = args.mA; MULT_ORN = args.mO; MULT_ELN = args.mE; MULT_ILN = args.mI; 
 RESAMPLE_ORNs = args.rO; RESAMPLE_LNs = args.rL; RESAMPLE_PNs = args.rP; RESAMPLE_uPNs = args.ruP; RESAMPLE_mPNs = args.rmP
 RESAMPLE_LNS_PATCHY = args.rLpatchy; RESAMPLE_LNS_BROAD = args.rLbroad; RESAMPLE_LNS_REGIONAL = args.rLregional; RESAMPLE_LNS_SPARSE = args.rLsparse
 ADJUST_PN_INPUTS = args.adjustPNInputs
+SNOISE_ORNs = args.sO; SNOISE_LNs = args.sL; SNOISE_PNs = args.sP; SNOISE_STRENGTH = args.sStrength
 
 print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_resampling_ORNs_LNs_PNs_adjustGlomSynapses')
+                               'save_sims_synapticNoise_ORNs_LNs_PNs')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
@@ -215,6 +221,26 @@ if ADJUST_PN_INPUTS:
 ######### RESAMPLING
 #########
 
+def add_noise_to_block(neur_block, s_strength):
+    noise_add = stats.norm.rvs(0, scale=s_strength*neur_block)
+    noise_add[neur_block == 0] = 0
+    noisy_neur_block = (neur_block + noise_add).astype(int)*1.0
+    noisy_neur_block[noisy_neur_block < 0] = 0
+    return noisy_neur_block
+
+al_block_synNoise = al_block.copy()
+if SNOISE_ORNs:
+    noisy_ORN_block = add_noise_to_block(al_block.loc[:, final_ORN_ids].copy().values, SNOISE_STRENGTH)
+    al_block_synNoise.loc[:, final_ORN_ids] = noisy_ORN_block
+if SNOISE_LNs:
+    noisy_LN_block = add_noise_to_block(al_block.loc[:, final_LN_ids].copy().values, SNOISE_STRENGTH)
+    al_block_synNoise.loc[:, final_LN_ids] = noisy_LN_block
+if SNOISE_PNs:
+    noisy_PN_block = add_noise_to_block(al_block.loc[:, final_PN_ids].copy().values, SNOISE_STRENGTH)
+    al_block_synNoise.loc[:, final_PN_ids] = noisy_PN_block
+    
+snoise_tag = '{}{}{}'.format('ORN_'*SNOISE_ORNs, 'LN_'*SNOISE_LNs, 'PN_'*SNOISE_PNs)
+
 # set ORN decay
 decay_tc = 0.11 # seconds
 decay_fadapt = 0.75 # a fraction
@@ -234,7 +260,7 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_synNoise_{snoise_tag}_{SNOISE_STRENGTH}_{sec_tag}'
 run_explanation = '''
 v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
 using ALS imputed MAC odors
@@ -242,7 +268,6 @@ all x0.1, eLNs x0.4, iLNs x0.2, PNs x4
 1/6.4 of LNs are set as excitatory (Tsai et al, 2018), 
     drawn randomly from top 50\% of LNs when sorted by number of glomeruli innervated 
 ORN decay timescale 110 ms to 75% (Kao and Lo, 2020)
-PN input weights adjusted by hemibrain glomerular synapse counts
 '''
 
 # erase output
@@ -272,10 +297,12 @@ sim_params_seed = {
     'decay_fadapt': decay_fadapt,
     'erase_sim_output': erase_sim_output,
     'imputed_glom_odor_table': imput_table,
-    'df_neur_ids': df_neur_ids_resampled,
-    'al_block': al_block_resampled,
+    'df_neur_ids': df_neur_ids,
+    'al_block': al_block_synNoise,
     'adjustPNInput': ADJUST_PN_INPUTS
     }
+
+al_block_synNoise.to_csv(os.path.join(saveto_dir, 'al_block.csv'))
 
 pickle.dump(sim_params_seed,
             open(os.path.join(saveto_dir, 'sim_params_seed.p'), "wb" ))
