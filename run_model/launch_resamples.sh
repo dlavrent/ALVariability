@@ -4,18 +4,18 @@ echo currently in $curdir
 curtime=$(date "+%y-%m-%d_%H-%M-%S")
 
 adjustPNinput=1
-noclass=80
-nORNonly=30
-nLNonly=30
+noclass=250
+nORNonly=200
+nLNonly=200
 nLNsparse=0
 nLNbroad=0
 nLNpatchy=0
 nLNregional=0
-nPNonly=30
+nPNonly=200
 nORNminus=0
 nLNminus=0
 nPNminus=0
-nall=20
+nall=200
 nPNuPNonly=0
 nPNmPNonly=0
 

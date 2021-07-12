@@ -57,7 +57,7 @@ print('setting settings...')
 
 # set master directory
 master_save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'save_sims_synapticNoise_ORNs_LNs_PNs')
+                               'save_sims_resampling_ORNs_LNs_PNs_adjustGlomSynapses2')
 if not os.path.exists(master_save_dir):
     os.mkdir(master_save_dir)
     
@@ -260,7 +260,7 @@ custom_scale_dic = {
 
 hemi_params['odor_rate_max'] = 400
 
-run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_synNoise_{snoise_tag}_{SNOISE_STRENGTH}_{sec_tag}'
+run_tag = f'0v12_all{MULT_ALL}_ecol{col_eln}_icol{col_iln}_pcol{col_pn}_resample_{resamp_tag}_{sec_tag}'
 run_explanation = '''
 v1.2 of hemibrain, with ORNs/LNs/uPNs/mPNs
 using ALS imputed MAC odors
@@ -268,6 +268,7 @@ all x0.1, eLNs x0.4, iLNs x0.2, PNs x4
 1/6.4 of LNs are set as excitatory (Tsai et al, 2018), 
     drawn randomly from top 50\% of LNs when sorted by number of glomeruli innervated 
 ORN decay timescale 110 ms to 75% (Kao and Lo, 2020)
+PN input weights adjusted by hemibrain glomerular synapse counts
 '''
 
 # erase output
@@ -297,8 +298,8 @@ sim_params_seed = {
     'decay_fadapt': decay_fadapt,
     'erase_sim_output': erase_sim_output,
     'imputed_glom_odor_table': imput_table,
-    'df_neur_ids': df_neur_ids,
-    'al_block': al_block_synNoise,
+    'df_neur_ids': df_neur_ids_resampled,
+    'al_block': al_block_resampled,
     'adjustPNInput': ADJUST_PN_INPUTS
     }
 
