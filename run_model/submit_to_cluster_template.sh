@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -n 1
-#SBATCH -t 0-03:30
+#SBATCH -t 0-04:00
 #SBATCH -p serial_requeue
 #SBATCH --account=debivort_lab
 #SBATCH --mem=64000

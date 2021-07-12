@@ -3,15 +3,15 @@ curdir=$(pwd)
 echo currently in $curdir
 curtime=$(date "+%y-%m-%d_%H-%M-%S")
 
-synStrength=0.2
-noclass=0
+synStrength=1
+noclass=80
 nORNonly=0
 nLNonly=0
 nPNonly=0
 nORNminus=0
 nLNminus=0
 nPNminus=0
-nall=2
+nall=130
 
 for i in $(seq 1 $noclass); do 
 	echo running blank synaptic noise...

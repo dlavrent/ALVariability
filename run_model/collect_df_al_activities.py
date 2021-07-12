@@ -14,7 +14,7 @@ n = datetime.now()
 time_tag = '{}_{}_{}-{}_{}_{}'.format(\
       n.year, n.month, n.day, n.hour, n.minute, n.second)
 
-master_sweep_dir = 'save_sims_resampling_ORNs_LNs_PNs_adjustGlomSynapses'
+master_sweep_dir = 'save_sims_synapticNoise_ORNs_LNs_PNs'
 save_to_path = os.path.join(master_sweep_dir, 'd_sims_res_df_AL_activities_{}.p'.format(time_tag))
 
 
