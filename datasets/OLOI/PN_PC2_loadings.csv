@@ -1,0 +1,66 @@
+loading,glom,odor
+0.09375,DC2,air
+0.375,DC2,3-octanol
+0.90625,DC2,1-hexanol
+0.65625,DC2,ethyl lactate
+0.833333333,DC2,citronella
+0.5,DC2,2-heptanone
+0.833333333,DC2,1-pentanol
+0.0625,DC2,ethanol
+0.260416667,DC2,geranyl acetate
+0.34375,DC2,hexyl acetate
+0.697916667,DC2,4-methylcyclohexanol
+0.604166667,DC2,pentyl acetate
+0.802083333,DC2,1-butanol
+0.020833333,DL5,air
+0.114583333,DL5,3-octanol
+0.177083333,DL5,1-hexanol
+0.104166667,DL5,ethyl lactate
+0.072916667,DL5,citronella
+0.041666667,DL5,2-heptanone
+0.135416667,DL5,1-pentanol
+-0.052083333,DL5,ethanol
+0.052083333,DL5,geranyl acetate
+0.104166667,DL5,hexyl acetate
+0.041666667,DL5,4-methylcyclohexanol
+0.010416667,DL5,pentyl acetate
+0.03125,DL5,1-butanol
+-0.010416667,DM1,air
+0.125,DM1,3-octanol
+0.135416667,DM1,1-hexanol
+0.010416667,DM1,ethyl lactate
+0.09375,DM1,citronella
+0.052083333,DM1,2-heptanone
+0.09375,DM1,1-pentanol
+-0.010416667,DM1,ethanol
+0.145833333,DM1,geranyl acetate
+0.052083333,DM1,hexyl acetate
+-0.020833333,DM1,4-methylcyclohexanol
+0,DM1,pentyl acetate
+0.125,DM1,1-butanol
+-0.072916667,DM2,air
+-0.46875,DM2,3-octanol
+-0.15625,DM2,1-hexanol
+-0.833333333,DM2,ethyl lactate
+0.03125,DM2,citronella
+-0.541666667,DM2,2-heptanone
+-0.5,DM2,1-pentanol
+-0.03125,DM2,ethanol
+-0.510416667,DM2,geranyl acetate
+-0.822916667,DM2,hexyl acetate
+-0.041666667,DM2,4-methylcyclohexanol
+-0.666666667,DM2,pentyl acetate
+-0.614583333,DM2,1-butanol
+0.166666667,DM3,air
+-0.072916667,DM3,3-octanol
+0.0625,DM3,1-hexanol
+-0.03125,DM3,ethyl lactate
+0.072916667,DM3,citronella
+-0.135416667,DM3,2-heptanone
+0.083333333,DM3,1-pentanol
+0.135416667,DM3,ethanol
+-0.052083333,DM3,geranyl acetate
+-0.010416667,DM3,hexyl acetate
+0.145833333,DM3,4-methylcyclohexanol
+0.020833333,DM3,pentyl acetate
+0.28125,DM3,1-butanol
