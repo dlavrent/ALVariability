@@ -229,7 +229,9 @@ class Sim(object):
             np.mean(rates[self.PNpos])
             
     def add_odor(self, odor_name, odor_start, odor_end, 
-                 tc=1e10, fadapt=0.5, imputed_glom_responses=[]):
+                 tc=1e10, fadapt=0.5, 
+                 manual_odor_glom_responses=[],
+                 imputed_glom_responses=[]):
         '''
         Given common name of odor (odor)name),
         looks it up in the DoOR response table (already stored in this class),
@@ -246,26 +248,33 @@ class Sim(object):
         if odor_end > self.end_time:
             print('odor end ({:.2f} s) is after simulation time ({:.2f} s)!'.format(odor_end, self.end_time))
             return -1
-        # retrieve glomerular responses for the odor (between 0 and 1)
-        or_response = (self.df_odor_response_matrix
-                       .T[odor_name]
-                       .rename_axis('receptor')
-                       .reset_index())
-        odor_glom_responses = (self.glom_df
-                               .reset_index()
-                               .merge(or_response, how='left')
-                               .set_index('model_glom')
-                               [odor_name]
-                               .fillna(0))
-        if len(imputed_glom_responses) > 0:
-            odor_glom_responses = (imputed_glom_responses
-                       .loc[self.glom_names, odor_name]
-                       .rename_axis('model_glom'))
+        # retrieve glomerular responses for the odor (between 0 and 1) from DOOR
+        if len(manual_odor_glom_responses) == 0:
+            or_response = (self.df_odor_response_matrix
+                           .T[odor_name]
+                           .rename_axis('receptor')
+                           .reset_index())
+            odor_glom_responses = (self.glom_df
+                                   .reset_index()
+                                   .merge(or_response, how='left')
+                                   .set_index('model_glom')
+                                   [odor_name]
+                                   .fillna(0))
+            # use imputed table instead if available
+            if len(imputed_glom_responses) > 0:
+                odor_glom_responses = (imputed_glom_responses
+                           .loc[self.glom_names, odor_name]
+                           .rename_axis('model_glom'))
+        else:
+            # add a custom odor not necessarily in DoOR
+            odor_glom_responses = manual_odor_glom_responses
+        
+        
         odor_orn_responses = (self.df_neur_ids
               [self.df_neur_ids.altype=='ORN']
               .merge(pd.DataFrame(odor_glom_responses), 
                      left_on='glom', 
-                     right_on='model_glom', 
+                     right_on=odor_glom_responses.index.name, 
                      how='left')
               [odor_name].values)
         #self.all_odor_door_responses.append(odor_glom_responses)        
@@ -285,6 +294,8 @@ class Sim(object):
         self.set_Iin_rates()
         # add to internal odor list
         self.odor_list.append([odor_name, odor_start, odor_end])
+        
+        return odor_glom_responses, odor_orn_responses, odor_times
     
     def draw_Iin_PSCs(self):
         '''
