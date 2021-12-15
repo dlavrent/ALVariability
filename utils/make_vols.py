@@ -85,13 +85,19 @@ def ll_lognormal_exp(params, Vs, Ss):
     a, sd, d = params
     return -np.sum(stats.lognorm.logpdf(Ss, s=sd, scale=a*Vs**d))
 
-max_lik_res = optimize.minimize(ll_lognormal_exp, x0=(1, 0.5, 1), args=(Vs, Ss))
-a_mle, sd_mle, d_mle = max_lik_res['x']
+
+for i in range(5):
+    max_lik_res = optimize.minimize(ll_lognormal_exp, x0=(1, 0.5, 1), args=(Vs, Ss))
+    a_mle, sd_mle, d_mle = max_lik_res['x']
+    print(a_mle, sd_mle, d_mle)
 
 
-drawn_glom_synapses = pd.Series(stats.lognorm.rvs(s=sd_mle, scale=a_mle*Vs**d_mle), index=df_glom_vols_synapses.index)
+def draw_glom_synapses():
+    return pd.Series(stats.lognorm.rvs(s=sd_mle, scale=a_mle*Vs**d_mle), index=df_glom_vols_synapses.index)
 
 def adjust_glomerular_synapses_AL_block(df_neur_ids_RESAMPLE, al_block_RESAMPLE):
+    
+    drawn_glom_synapses = draw_glom_synapses()
     
     for g in hemi_gloms:
     
