@@ -777,7 +777,7 @@ def plot_electrophys_hmap(jdir_params_seed):
     #plt.show()
    
 def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
-                    saveplot=False, savetodir='./', showplot=False, sub_pre=1):
+                    saveplot=False, savetodir='./', showplot=False, hist_x_label=' relative to baseline'):
     
     bhand_filepath = os.path.join(project_dir, 'datasets/Bhandawat2007/fig3_responses/fig3_firing_rates.csv')
     df_bhand_frs = pd.read_csv(bhand_filepath)
@@ -788,7 +788,7 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
     gs = GridSpec(2,2, height_ratios=[1.8,1])
     
     ax1 = plt.subplot(gs[0, :])
-    plt.title('Firing rates of ORNs/LNs/PNs when odors on/off')
+    plt.title('Firing rates of ORNs/LNs/PNs when odors on/off, no baseline subtraction')
     plot_AL_activity_dur_pre_odors(df_AL_activity_long)
 
     all_frs = np.concatenate((df_upn_frs.values.flatten(), df_orn_frs.values.flatten()))
@@ -797,7 +797,7 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
     keyword = 'peak'
 
     ax2 = plt.subplot(gs[1,0])
-    plt.title('ORN FR during odors - FR off odors')
+    #plt.title('ORN FR during odors - FR off odors')
     arr = df_orn_frs.values.flatten()
     weights = np.ones_like(arr) / len(arr)
     plt.hist(arr, weights=weights, bins=b, color='k', alpha=.6, 
@@ -807,11 +807,11 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
     plt.hist(arr, weights=weights, bins=b, color='gold', alpha=.6, 
             label='Bhandawat 2007\n({})'.format(keyword))
     ax2.legend()
-    plt.xlabel('ORN firing rate (Hz)'+sub_pre*'relative to baseline')
+    plt.xlabel('ORN firing rate (Hz)'+hist_x_label)
     plt.ylabel('fraction of ORNs*odors')
 
     ax3 = plt.subplot(gs[1,1], sharey=ax2)
-    plt.title('uPN FR during odors - FR off odors')
+    #plt.title('uPN FR during odors - FR off odors')
     arr = df_upn_frs.values.flatten()
     weights = np.ones_like(arr) / len(arr)
     plt.hist(arr, weights=weights, bins=b, color='k', alpha=.6, 
@@ -821,7 +821,7 @@ def plot_ornpn_hist(df_AL_activity_long, df_orn_frs, df_upn_frs, savetag='',
     plt.hist(arr, weights=weights, bins=b, color='gold', alpha=.6, 
             label='Bhandawat 2007\n({})'.format(keyword))
     ax3.legend()
-    plt.xlabel('uPN firing rate (Hz)'+sub_pre*'relative to baseline')
+    plt.xlabel('uPN firing rate (Hz)'+hist_x_label)
     plt.ylabel('fraction of PNs*odors')
     plt.subplots_adjust(hspace=0.1)
     plt.tight_layout()
@@ -899,5 +899,295 @@ def plot_fig_orn_pn_stats(fig_orn_pn, orn_table, pn_table, cmap='bwr', savetag='
             plt.show()
         
     return orn_dists, pn_dists
+
+def plot_sim_raster(sim, Spikes, df_AL_activity, d_color,
+                     plot_ORNs=True, plot_LNs_PNs=False, msize=1):    
+
+    ntypes = []
+    rordering = np.array([])
+
+    # retrieve ORNs/LNs/PNs
+    df_orn_activity = df_AL_activity.copy()[df_AL_activity.neur_type == 'ORN']
+    dur_cols = [c for c in df_AL_activity.columns if 'dur' in c]
+    df_orn_activity['mean_dur_odors'] = df_AL_activity[dur_cols].mean(1)
+    gloms_in_orn_act_order = df_orn_activity.groupby(['glom']).mean()['mean_dur_odors'].sort_values()[::-1].index.values
+    df_orn_activity['glom'] = pd.Categorical(df_orn_activity['glom'], categories=gloms_in_orn_act_order, ordered=True)
+    df_orns = df_orn_activity.sort_values(['glom', 'mean_dur_odors'], ascending=[1,0])
+
+    ln_order = np.concatenate((sim.eLNpos, sim.iLNpos))
+
+    df_pns = sim.df_neur_ids.copy()[sim.df_neur_ids.altype.isin(['uPN', 'mPN'])]
+    pn_order = df_pns.index.values
+
+    # set up info dataframe
+    df_neur_ids = sim.df_neur_ids.copy()
+    orn_gloms = df_neur_ids.loc[df_neur_ids.altype == 'ORN', 'glom'].astype(str).unique()
+    df_neur_ids['text_lab'] = ''
+    df_neur_ids['text_lab_pos'] = 0
+    df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'text_lab'] = df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'glom']
+    df_neur_ids['rastype'] = df_neur_ids['altype']
+    df_neur_ids.loc[sim.LNpos, 'polarity'] = -1
+    df_neur_ids.loc[sim.eLNpos, 'polarity'] = +1
+    df_neur_ids.loc[df_neur_ids.altype == 'LN', 'text_lab'] = ''
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == +1), 'rastype'] = 'eLN'
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == -1), 'rastype'] = 'iLN'
+    df_neur_ids.loc[df_neur_ids.altype == 'mPN', 'text_lab'] = ''
+    df_neur_ids.loc[df_neur_ids['text_lab'] != '', 'text_lab_pos'] = np.arange(df_neur_ids.loc[df_neur_ids['text_lab'] != ''].shape[0])
+
+
+    if plot_ORNs:
+        ntypes += ['ORN']
+        rordering = np.concatenate((rordering, np.arange(len(df_orns)))).astype(int)
+
+    if plot_LNs_PNs:
+        ntypes += ['eLN', 'iLN', 'uPN', 'mPN']
+        rordering = np.concatenate((rordering, ln_order, pn_order)).astype(int)
+
+
+    df_neur_ids = df_neur_ids.iloc[rordering].reset_index()   
+    Spikes_subset = Spikes[rordering, :]
+    N_CELLS = Spikes_subset.shape[0]
+
+    gs = GridSpec(2, 2,
+                  height_ratios=[1,20], width_ratios=[1,12],
+                  wspace=0); gs.update(hspace=0.)
+    gs.update(hspace=0.)
+
+    # plot spikes
+    ax2 = plt.subplot(gs[1,1])
+    for i in range(N_CELLS):
+        input_i = Spikes_subset[i, :]
+        where_spike_i = np.where(input_i > 0)[0]
+        ax2.plot(where_spike_i*sim.dt, [N_CELLS-i+1]*len(where_spike_i), '|', markersize=msize, color='k')
+
+
+    # plot odors along top
+    ax1 = plt.subplot(gs[0, 1], sharex=ax2)
+    ax1.axis('off')
+    np.random.seed(1234)
+    for ir in range(len(sim.odor_list)):
+        row = sim.odor_list[ir]
+
+        odor_name, odor_start, odor_end = row
+
+        rgb = np.random.uniform(0, 1, 3)
+        ax1.fill_between([odor_start, odor_end], [N_CELLS+1.5, N_CELLS+1.5], 
+                         label=odor_name, 
+                         color=rgb,
+                         alpha=1)    
+
+    ax1.legend(title='odors', loc='upper left', frameon=False, bbox_to_anchor=(1.01, 0))
+    plt.xticks(size=15)
+
+
+    # plot along the side
+    ax3 = plt.subplot(gs[1,0], sharey=ax2)
+    ax3.axis('off')
+
+
+    np.random.seed(123)
+    glom_alphas = dict((orn_gloms[i], 10**np.random.uniform(-2, 0)) for i in range(len(orn_gloms)))
+    glom_alphas['iLN'] = 0.25
+    glom_alphas['eLN'] = 0.75
+
+    # plot side text labels
+    for nt in ntypes:
+        pos_nt = df_neur_ids[df_neur_ids.rastype == nt].index.values
+        plt.text(-0.1, N_CELLS - np.mean(pos_nt), nt, ha='right')
+
+    # color side cell types
+    for i in range(N_CELLS):
+        g1 = df_neur_ids.index[i]; g2 = g1 + 1
+        neur_entry = df_neur_ids.iloc[i]
+
+        c = d_color[neur_entry.rastype]
+        alph = 1
+        if neur_entry.glom in list(glom_alphas.keys()):
+            alph = glom_alphas[neur_entry.glom]  
+        elif neur_entry.rastype in list(glom_alphas.keys()):
+            alph = glom_alphas[neur_entry.rastype]
+        y1, y2 = N_CELLS-g2, N_CELLS-g1
+        plt.fill_between([0,1],y1=y1, y2=y2, color=c, alpha=alph)
+
+    ax2.set_xlabel('time (s)', size=15)
+    ax2.set_yticks([])
+    
+    return df_neur_ids
+    
+
+def plot_mini_raster(sim, Spikes, df_AL_activity, subsampling = 15, msize=6):
+
+    # set ordering
+    df_orn_activity = df_AL_activity.copy()[df_AL_activity.neur_type == 'ORN']
+    dur_cols = [c for c in df_AL_activity.columns if 'dur' in c]
+    df_orn_activity['mean_dur_odors'] = df_AL_activity[dur_cols].mean(1)
+    gloms_in_orn_act_order = df_orn_activity.groupby(['glom']).mean()['mean_dur_odors'].sort_values()[::-1].index.values
+    df_orn_activity['glom'] = pd.Categorical(df_orn_activity['glom'], categories=gloms_in_orn_act_order, ordered=True)
+    df_orns = df_orn_activity.sort_values(['glom', 'mean_dur_odors'], ascending=[1,0])
+
+    ln_order = np.concatenate((sim.eLNpos, sim.iLNpos))
+
+    df_pns = sim.df_neur_ids.copy()[sim.df_neur_ids.altype.isin(['uPN', 'mPN'])]
+    df_pns['glom'] = pd.Categorical(df_pns['glom'], categories=gloms_in_orn_act_order, ordered=True)
+    df_pns = df_pns.sort_values(['altype', 'glom'], ascending=[0,1])
+    pn_order = df_pns.index.values
+
+    # subsample ORNs
+    orn_val_cnts = df_orn_activity.glom.value_counts()
+    orn_val_cnts_subsample = np.ceil(orn_val_cnts/subsampling).astype(int)
+    orn_indices_subsampled = []
+    for g in gloms_in_orn_act_order:
+        orn_indices = df_orns[df_orns.glom == g].index.values
+        orn_n_subsamples = orn_val_cnts_subsample.loc[g]
+        takespace = orn_indices[np.linspace(0, len(orn_indices)-1, orn_n_subsamples, dtype=int)]
+        orn_indices_subsampled.append(takespace)
+    orn_indices_subsampled = np.concatenate(orn_indices_subsampled)
+
+
+    rordering = np.concatenate((orn_indices_subsampled, ln_order, pn_order))   
+
+    df_neur_ids = sim.df_neur_ids.copy()
+    df_neur_ids.loc[sim.LNpos, 'polarity'] = -1
+    df_neur_ids.loc[sim.eLNpos, 'polarity'] = +1
+    df_neur_ids = df_neur_ids.iloc[rordering].reset_index()
+    df_neur_ids['text_lab'] = ''
+    df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'text_lab'] = df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'glom']
+    df_neur_ids.loc[df_neur_ids.altype == 'LN', 'text_lab'] = ''
+    df_neur_ids.loc[df_neur_ids.altype == 'mPN', 'text_lab'] = ''
+    df_neur_ids['text_lab_pos'] = 0
+    df_neur_ids.loc[df_neur_ids['text_lab'] != '', 'text_lab_pos'] = np.arange(df_neur_ids.loc[df_neur_ids['text_lab'] != ''].shape[0])
+
+
+    df_neur_ids['rastype'] = df_neur_ids['altype']
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == +1), 'rastype'] = 'eLN'
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == -1), 'rastype'] = 'iLN'
+
+
+    Spikes_subsampled = Spikes[rordering, :]
+    N_CELLS = Spikes_subsampled.shape[0]
+    
+    t_array = np.arange(Spikes_subsampled.shape[1]) * sim.dt
+    
+    
+    df_neur_ids = sim.df_neur_ids.copy()
+
+    gloms = ['DC2', 'DL5', 'DM1', 'DM2', 'DM3']
+    n_orns_per_glom = 3
+
+    orn_indices = []
+    upn_indices = []
+    for g in gloms:
+        glom_orns = df_neur_ids[(df_neur_ids.altype == 'ORN') & (df_neur_ids.glom == g)].index.values
+        glom_upns = df_neur_ids[(df_neur_ids.altype == 'uPN') & (df_neur_ids.glom == g)].index.values
+        orn_indices.append(glom_orns[:n_orns_per_glom])
+        upn_indices.append(glom_upns)
+
+    orn_indices = np.concatenate(orn_indices)
+    upn_indices = np.concatenate(upn_indices)
+
+    all_elns = df_neur_ids[(df_neur_ids.polarity == +1) & (df_neur_ids.altype == 'LN')].index.values
+    all_ilns = df_neur_ids[(df_neur_ids.polarity == -1) & (df_neur_ids.altype == 'LN')].index.values
+
+    eln_indices = all_elns[[0, 1, 3, 20, 25]]
+    iln_indices = all_ilns[[0, 1, 3, 20, 50]]
+
+    all_mPNs = df_neur_ids[df_neur_ids.altype == 'mPN'].index.values
+    mpn_indices = all_mPNs[[0, 6, 10, 20, 25]]
+
+    rordering = np.concatenate((orn_indices, eln_indices, iln_indices, upn_indices, mpn_indices))
+    
+    t_cutoff = 2
+
+    df_neur_ids = sim.df_neur_ids.copy()
+    df_neur_ids.loc[sim.LNpos, 'polarity'] = -1
+    df_neur_ids.loc[sim.eLNpos, 'polarity'] = +1
+    df_neur_ids = df_neur_ids.iloc[rordering].reset_index()
+    df_neur_ids['text_lab'] = ''
+    df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'text_lab'] = df_neur_ids.loc[~df_neur_ids['glom'].duplicated(), 'glom']
+    df_neur_ids.loc[df_neur_ids.altype == 'LN', 'text_lab'] = ''
+    df_neur_ids.loc[df_neur_ids.altype == 'mPN', 'text_lab'] = ''
+    df_neur_ids['text_lab_pos'] = 0
+    df_neur_ids.loc[df_neur_ids['text_lab'] != '', 'text_lab_pos'] = np.arange(df_neur_ids.loc[df_neur_ids['text_lab'] != ''].shape[0])
+
+
+    df_neur_ids['rastype'] = df_neur_ids['altype']
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == +1), 'rastype'] = 'eLN'
+    df_neur_ids.loc[(df_neur_ids.altype == 'LN') & (df_neur_ids.polarity == -1), 'rastype'] = 'iLN'
+
+
+    Spikes_subsampled = Spikes[rordering, :][:, t_array <= t_cutoff]
+    N_CELLS = Spikes_subsampled.shape[0]
+    
+    
+    
+    
+
+    gs = GridSpec(2, 2,
+                  height_ratios=[1.5,20], width_ratios=[0.6,12],
+                  wspace=0); gs.update(hspace=0.)
+
+    # plot spikes
+    ax2 = plt.subplot(gs[1,1])  
+
+    # plot odors along top
+    ax1 = plt.subplot(gs[0, 1], sharex=ax2)
+    ax1.axis('off')
+    for row in sim.odor_list:
+        odor_name, odor_start, odor_end = row
+        if odor_start < t_cutoff:
+            ax1.fill_between([odor_start, odor_end], 
+                             [N_CELLS+1.5, N_CELLS+1.5], 
+                             color='0.7', alpha=1)
+            ax1.text(odor_start + (odor_end - odor_start)/2, 
+                    N_CELLS-40,
+                    odor_name,
+                    ha='center',
+                    va='bottom')
+    plt.xticks(size=15)
+
+    # plot along the side
+    ax3 = plt.subplot(gs[1,0], sharey=ax2)
+
+    colors_std = np.array(plt.rcParams['axes.prop_cycle'].by_key()['color'])
+    pn_gloms = df_neur_ids.loc[df_neur_ids.altype == 'uPN', 'glom'].astype(str).unique()
+    glom_colors = dict((pn_gloms[i], plt.get_cmap('Set2')(i)) for i in range(len(pn_gloms)))
+
+    ntypes = ['ORN', 'eLN', 'iLN', 'uPN', 'mPN']
+    for nt in ntypes:
+        pos_nt = df_neur_ids[df_neur_ids.rastype == nt].index.values
+        plt.text(-0.1, np.mean(pos_nt), nt, ha='right', va='center')
+
+
+    # label iLNs
+    for i in range(N_CELLS):
+        neur_entry = df_neur_ids.iloc[i]
+        c = 'k'
+        if neur_entry.rastype == 'ORN' or neur_entry.rastype == 'uPN':
+            c = glom_colors[neur_entry.glom]
+        elif neur_entry.rastype == 'mPN':
+            c = '0.5'
+        elif neur_entry.rastype == 'eLN':
+            c = 'red'
+        elif neur_entry.rastype == 'iLN':
+            c = 'blue'
+
+        input_i = Spikes_subsampled[i, :]
+        where_spike_i = np.where(input_i > 0)[0]
+
+        if len(where_spike_i) > 0:
+            ax2.plot(where_spike_i*sim.dt, [i]*len(where_spike_i), '|', markersize=msize, color=c)
+
+        ax3.text(0, i + 1, neur_entry.text_lab, ha='left', va='center', size=10)
+        ax3.fill_between([0,1], y1=i-0.5, y2=i+0.5, color=c)
+
+    ax2.set_xlabel('time (s)', size=15)
+    ax3.axis('off')
+
+    for ax in [ax2, ax3]:
+        ax.set_ylim(-0.5, N_CELLS-1)
+        ax.invert_yaxis()
+        ax.set_yticks([])
+
+    plt.tight_layout() 
     
     

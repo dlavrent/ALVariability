@@ -13,7 +13,10 @@ def set_font_sizes(SMALL_SIZE=14, MEDIUM_SIZE=16, LARGE_SIZE=20):
     Sets font size for matplotlib
     From: https://stackoverflow.com/a/39566040
     '''
-    plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+    font = {'family':'sans-serif',
+            'sans-serif':['Arial'],
+            'size': SMALL_SIZE}
+    plt.rc('font', **font)          # controls default text sizes
     plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
     plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
     plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
@@ -79,7 +82,7 @@ def plot_scaled_hmap(fig, conmat, neur_sets, neur_set_names, cmap='jet'):
               width_ratios=p_ratios, height_ratios=p_ratios, 
               wspace=0.025, hspace=0.025)
 
-    plt.suptitle(r'Hemibrain connectivity matrix', y=0.93)
+    #plt.suptitle(r'Hemibrain connectivity matrix', y=0.93)
 
     cbar_ax = fig.add_axes([.92, .3, .03, .4])
 
@@ -91,7 +94,7 @@ def plot_scaled_hmap(fig, conmat, neur_sets, neur_set_names, cmap='jet'):
             # plot the heatmap
             ax = fig.add_subplot(gs[i, j])
             mat = conmat.loc[neur_sets[i], neur_sets[j]]
-            plot_mat(mat, ax, cbar_ax, cmap='jet')
+            plot_mat(mat, ax, cbar_ax, cmap=cmap)
 
             # remove tick labels
             ax.set_yticklabels([]); ax.set_yticks([]); ax.set_ylabel('')
