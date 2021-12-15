@@ -115,3 +115,16 @@ dmypy.json
 datasets/DoOR/.Rhistory
 trash/
 save_sims_*
+sensitivity_sweep_plots
+all_pdfs_*
+bhandawat_comparison_pdfs*
+connectivity_matrices_*
+old/
+connectivity_PCA_figs/
+desktop.ini
+transfer_function/
+# too large
+hemibrain_connectivity_matrix.pdf
+hemibrain_connectivity_matrix_nolines.pdf
+# temporary file
+cur_saveto_dir.txt
