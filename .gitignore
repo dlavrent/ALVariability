@@ -128,3 +128,5 @@ hemibrain_connectivity_matrix.pdf
 hemibrain_connectivity_matrix_nolines.pdf
 # temporary file
 cur_saveto_dir.txt
+# hemibrain access key
+hemibrain_access_token.py
