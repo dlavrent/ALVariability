@@ -12,7 +12,9 @@ from matplotlib.gridspec import GridSpec
 import seaborn as sns
 
 def plot_sim_spikes2(sim, Spikes, df_AL_activity, subsampling=15, msize=3):    
-    
+    '''
+    Plots a spike raster for all neurons
+    '''
     # set ordering
     df_orn_activity = df_AL_activity.copy()[df_AL_activity.neur_type == 'ORN']
     dur_cols = [c for c in df_AL_activity.columns if 'dur' in c]
@@ -125,6 +127,10 @@ def plot_sim_spikes2(sim, Spikes, df_AL_activity, subsampling=15, msize=3):
     
 
 def get_PSTH_from_spike_array(spike_array, wl=100, dt=0.0001):
+    '''
+    Helper for get_AL_psths to compute peristimulus time histograms
+    This function returns a smoothed spike array given a desired window length
+    '''
     spike_sum = spike_array.sum(0)
     n_neurs = spike_array.shape[0]
        
@@ -136,6 +142,10 @@ def get_PSTH_from_spike_array(spike_array, wl=100, dt=0.0001):
     return np.array(resx)/n_neurs/dt
 
 def get_AL_psths(sim, Spikes, wl=100):
+    '''
+    Helper for plot_AL_psths, returning the peristimulus time histograms
+    for ORNs, PNs, eLNs, and uPNs
+    '''
     df_neur_ids = sim.df_neur_ids.copy()
     hemi_gloms = sim.glom_names
     orn_psths = []; upn_psths = []
@@ -156,7 +166,9 @@ def get_AL_psths(sim, Spikes, wl=100):
     return orn_psths, upn_psths, eln_psths, iln_psths
 
 def plot_AL_psths(orn_psths, pn_psths, eln_psths, iln_psths, sim, topk=6):
-   
+    '''
+    Plots peristimulus time histograms for select neurons
+    '''
     hemi_gloms = sim.glom_names
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12,14))
 
@@ -195,11 +207,17 @@ def plot_AL_psths(orn_psths, pn_psths, eln_psths, iln_psths, sim, topk=6):
 
 
 def plot_psths(sim, Spikes):
+    '''
+    Wrapper for plot_AL_psths
+    '''
     orn_psths, pn_psths, eln_psths, iln_psths = get_AL_psths(sim, Spikes)
     plot_AL_psths(orn_psths, pn_psths, eln_psths, iln_psths, sim, 6)
     plt.tight_layout()
 
 def plot_neur_I_contribs(neur_i, d_neur_inputs, sim, I, Iin, V, Spikes):
+    '''
+    Plots current inputs for a given neuron, broken up by cell type
+    '''
     neur_inputs = d_neur_inputs[neur_i]['neur_inputs']
 
     neur_i_I_by_inputs = (neur_inputs * I.T).T + Iin[neur_i, :]
@@ -246,6 +264,11 @@ def plot_neur_I_contribs(neur_i, d_neur_inputs, sim, I, Iin, V, Spikes):
 
 
 def plot_synapse_scale_hmap(fig_scale_hmap, sim):
+    '''
+    Plots a 4x4 grid indicating the cell type - cell type
+    multiplier applied to the connectivity matrix of a Sim object
+    (i.e. what is the multiplier applied to each iLN -> PN synapse?)
+    '''
     neur_types = ['ORN', 'iLN', 'eLN', 'PN']
     neur_type_letters = ['o', 'i', 'e', 'p']
     
@@ -281,3 +304,63 @@ def plot_synapse_scale_hmap(fig_scale_hmap, sim):
     #plt.show()
     
 
+def plot_AL_activity_dur_pre_odors(df_AL_activity_long):
+    '''
+    Plots firing rates for individual neurons, 
+    split up by cell type, and by pre (left) / post (right) odor
+    '''
+    # expected firing rates
+    cols = df_AL_activity_long.columns
+    rows = [
+        pd.Series(['ORN_ex_pre', 'ORN', 'fr_pre_odor0', 10, False, 0, 'DA1'], index=cols),
+        pd.Series(['ORN_ex_dur', 'ORN', 'fr_dur_odor0', 40, True, 0, 'DA1'], index=cols),
+        pd.Series(['LN_ex_pre', 'LN', 'fr_pre_odor0', 5, False, 0, np.nan], index=cols),
+        pd.Series(['LN_ex_dur', 'LN', 'fr_dur_odor0', 10, True, 0, np.nan], index=cols),
+        pd.Series(['iLN_ex_pre', 'iLN', 'fr_pre_odor0', 5, False, 0, np.nan], index=cols),
+        pd.Series(['iLN_ex_dur', 'iLN', 'fr_dur_odor0', 10, True, 0, np.nan], index=cols),
+        pd.Series(['eLN_ex_pre', 'eLN', 'fr_pre_odor0', 5, False, 0, np.nan], index=cols),
+        pd.Series(['eLN_ex_dur',  'eLN', 'fr_dur_odor0', 10, True, 0, np.nan], index=cols),
+        pd.Series(['uPN_ex_pre', 'uPN', 'fr_pre_odor0', 5, False, 0, 'DA1'], index=cols),
+        pd.Series(['uPN_ex_dur', 'uPN', 'fr_dur_odor0', 90, True, 0, 'DA1'], index=cols),
+    ]
+    df_expected_activity = pd.DataFrame(rows)
+    # use appropriate values if all LNs, or mix of i/eLNs
+    df_expected_activity = (df_expected_activity
+            [df_expected_activity.neur_type.isin(df_AL_activity_long.neur_type)]
+    )
+    
+    show_violin=False
+    show_means=True
+    show_expect=True
+    show_pts=True
+    if show_violin:
+        ax = sns.violinplot(x='neur_type', y='fr', 
+                      hue='dur_odor', dodge=True, 
+                      palette='husl',
+                      alpha=0.1, linewidth=0,
+                      data=df_AL_activity_long)
+    if show_means:
+        ax = sns.pointplot(x='neur_type', y='fr', 
+                      hue='dur_odor', dodge=True, 
+                      data=df_AL_activity_long,
+                      palette="husl", join=False,
+                      markers="d", ci=None, label='means')
+    if show_expect:
+        ax = sns.pointplot(x='neur_type', y='fr', 
+                      hue='dur_odor', dodge=True, 
+                      data=df_expected_activity,
+                      palette=['gold']*2, join=False,
+                      markers="*", ci=None, label='means')
+    
+    if show_pts:
+        sns.stripplot(x='neur_type', y='fr', 
+                      hue='dur_odor', dodge=True, 
+                      color='k', alpha=0.25, size=3, 
+                      jitter=True,
+                      data=df_AL_activity_long)
+    
+    handles, labels = [], []
+    plt.legend(handles, labels, frameon=False)
+    plt.xlabel('')
+    plt.ylabel('firing rate (Hz)')
+    
