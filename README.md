@@ -24,8 +24,10 @@ A brief walkthrough of the directories in this repository:
 
 ### Running a model
 
-Quick instructions for simulating an AL: 
+Quick AL simulation demo: 
+- `run_model/run_example_simulation.ipynb` is a Jupyter notebook that includes a short antennal lobe simulation, running in less than a minute, featuring key circuit execution code and visualizations. You can use this demo to compare model outputs on your end before starting longer simulations
 
+More detailed instructions for AL simulations:
 - `run_model/export_resampling_sim_settings.py` is the key file for setting up a model before it is run. Edit this file directly to set desired parameters, such as the names + durations of odor stimuli, the cell populations to bootstrap, which LNs to set as excitatory, etc.
 - Once you are done adding desired model settings, be sure to edit the `run_tag` string in `run_model/export_resampling_sim_settings.py` to set the name of a new directory that will 1) store the input parameters for the desired model and 2) be where the model is actually run. Execute `python run_model/export_resampling_sim_settings.py` to create that new directory with the name set in `run_tag`
 - The created model directory will contain a Python pickled dictionary, `sim_params_seed.p`, that contains the input parameters of the model
@@ -35,9 +37,11 @@ Quick instructions for simulating an AL:
 - If you are on a research computing cluster, instead of executing `python run_sim.py` within the model directory, you can submit it as a job by executing `./submit_job.sh`. Similar to `run_sim.py`, `submit_job.sh` is a copy of `run_model/submit_to_cluster_template.sh` that is outputted by `run_model/export_resampling_sim_settings.py` 
 - For running a series of jobs, for instance when doing multiple cell-type bootstraps, a script like `run_model/launch_resamples.sh` will feed desired input arguments into `export_resampling_sim_settings.py`, run it, navigate to the created directory, and run the model on a computing cluster via `submit_job.sh`
 
-### Implementation details
+### Implementation details / installation
 
-Python 3.6 was used for all Jupyter notebooks and Python scripts. You can install the Anaconda environment used for the project using `alvar.yml` in this repository:
+This software has been tested on Windows 10 and Linux CentOS 7.9.2009. 
+
+Python 3.6 was used for all Jupyter notebooks and Python scripts. You can install the Anaconda environment used for the project using `alvar.yml` in this repository (takes about 10 minutes to fully download):
 
 ```
 conda env export --name ALVar > alvar.yml
