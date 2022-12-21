@@ -1,6 +1,6 @@
 # ALVariability/
 > Danylo Lavrentovich
-> de Bivort Lab 2021
+> de Bivort Lab 2022
 
 Computational model of the *Drosophila* antennal lobe (AL) for [*Neural correlates of individual odor preference in Drosophila*](http://lab.debivort.org/odor-loci-of-individuality/).
 
@@ -15,6 +15,8 @@ A brief walkthrough of the directories in this repository:
 **run_model/** contains shell and Python scripts for running circuits or batches of circuits, either manually or using a computing cluster. See next section for more details
 
 **analysis/** contains Jupyter notebooks used for selecting a model from a parameter sweep, plotting model outputs, and performing PCA on odor responses of simulated flies to compare to PCA on calcium responses in real flies
+
+**sensitivity_analysis/** contains a Jupyter notebook and Python scripts used to perform a sensitivity analysis around the cell-type specific sensitivity parameters
 
 **odor_imputation/** contains Jupyter notebooks/MATLAB scripts for imputing missing glomerulus-odor responses for odors used to calibrate and run the model
 
@@ -44,5 +46,5 @@ This software has been tested on Windows 10 and Linux CentOS 7.9.2009.
 Python 3.6 was used for all Jupyter notebooks and Python scripts. You can install the Anaconda environment used for the project using `alvar.yml` in this repository (takes about 10 minutes to fully download):
 
 ```
-conda env export --name ALVar > alvar.yml
+conda env create -f alvar.yml
 ```
